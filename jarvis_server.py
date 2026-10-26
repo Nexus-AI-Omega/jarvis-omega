@@ -707,8 +707,10 @@ class JarvisRequestHandler(BaseHTTPRequestHandler):
 
         if path == "/api/sovereign/mc-audit-heal":
             target_dir = str(body.get("target_dir", "C:\\minecraft-server-dashboard"))
-            apply_fixes = bool(body.get("apply_fixes", False))
-            res = audit_and_patch_dashboard_folder(target_dir=target_dir, apply_fixes=apply_fixes)
+            # HARTE REGEL: `minecraft-server-dashboard` ist strikt read-only.
+            # Schreibende Fixes werden serverseitig nie angefordert (Guard sitzt zusaetzlich im Modul).
+            res = audit_and_patch_dashboard_folder(target_dir=target_dir, apply_fixes=False)
+            res["mode"] = "READ_ONLY_ANALYSE"
             self._send_json(res)
             return
 

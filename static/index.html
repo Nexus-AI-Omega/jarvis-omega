@@ -747,8 +747,8 @@ def run_user_query(db, user_id, cmd):
             <div style="font-size:0.78rem;font-weight:700;color:var(--gold);margin-bottom:6px;">🩺 1-Klick Code-Doctor für `minecraft-server-dashboard`</div>
             <div class="input-row" style="margin-bottom:6px;">
               <input type="text" id="mc-audit-dir" value="C:\\minecraft-server-dashboard" title="Pfad zum Dashboard-Ordner" />
-              <button class="btn secondary" onclick="mcAudit(false)">🔍 Audit (read-only)</button>
-              <button class="btn danger" onclick="mcAudit(true)">🛠️ Fixes anwenden (.bak)</button>
+              <button class="btn secondary" onclick="mcAudit()">🔍 Audit starten (strikt read-only)</button>
+              <span class="badge red" title="Harte Regel: dieses Repository wird niemals bearbeitet, gepusht oder gelöscht">🛑 Repo geschützt</span>
             </div>
             <div id="mc-audit-result" style="font-size:0.77rem;"></div>
           </div>
@@ -1664,23 +1664,22 @@ def run_user_query(db, user_id, cmd):
       document.getElementById('mc-extra').innerHTML = `<pre class="code-out" style="max-height:240px;">${JSON.stringify(d, null, 2)}</pre>`;
     }
 
-    async function mcAudit(applyFixes) {
+    async function mcAudit() {
       const dir = document.getElementById('mc-audit-dir').value;
       const el = document.getElementById('mc-audit-result');
-      el.innerHTML = applyFixes ? '🛠️ Wende Fixes an (Backups als .jarvis.bak)...' : '🔍 Prüfe Ordner (read-only)...';
+      el.innerHTML = '🔍 Prüfe Ordner (strikt read-only, es wird nichts verändert)...';
       const res = await fetch('/api/sovereign/mc-audit-heal', {
-        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({target_dir: dir, apply_fixes: applyFixes})
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({target_dir: dir})
       });
       const d = await res.json();
       const issues = d.issues_found || [];
-      const patches = d.patches_applied || [];
       const bp = d.ready_made_fixes || {};
       el.innerHTML =
-        `<div style="color:${d.exists_locally ? 'var(--green)' : 'var(--gold)'};font-weight:700;">${d.exists_locally ? `✅ ${issues.length} Befund(e) im Ordner geprüft` : '📦 Ordner nicht in dieser Sandbox — 1-Klick-Fix-Blueprint bereit'}</div>
+        `<div style="color:${d.exists_locally ? 'var(--green)' : 'var(--gold)'};font-weight:700;">${d.exists_locally ? `✅ ${issues.length} Befund(e) im Ordner geprüft` : '📦 Ordner nicht in dieser Sandbox — Fix-Blueprint zum manuellen Anwenden bereit'}</div>
          <div style="color:var(--muted);margin:3px 0 6px;">${d.message || ''}</div>` +
         (issues.length ? `<ul style="margin:6px 0 0 16px;">${issues.map(i => `<li><span class="badge ${i.severity === 'CRITICAL' || i.severity === 'HIGH' ? 'red' : 'gold'}">${i.severity}</span> <strong>${i.title}</strong><br><span style="color:var(--muted);font-size:0.72rem;">${i.file} → ${i.fix}</span></li>`).join('')}</ul>` : '') +
-        (patches.length ? `<div style="margin-top:6px;color:var(--green);">✅ Angewendet: ${patches.join(' · ')}</div>` : '<div style="margin-top:6px;color:var(--muted);">Audit-Modus: nichts verändert (read-only). Backups entstehen als <code>.jarvis.bak</code>.</div>') +
-        (bp.ultra_low_ram_start_cmd ? `<details style="margin-top:6px;"><summary style="cursor:pointer;color:var(--cyan);font-size:0.75rem;">📜 Fertige Fix-Snippets &amp; Low-RAM Startbefehl</summary><pre class="code-out" style="max-height:200px;margin-top:6px;">${[bp.mail_service_fix, bp.player_auth_fix, bp.ultra_low_ram_start_cmd].filter(Boolean).join('\n\n')}</pre></details>` : '');
+        `<div style="margin-top:6px;color:var(--green);">🛑 STRICT READ-ONLY: In dieses Repository wird nie geschrieben, gepusht oder gelöscht — 0 Dateien verändert.</div>` +
+        (bp.ultra_low_ram_start_cmd ? `<details style="margin-top:6px;"><summary style="cursor:pointer;color:var(--cyan);font-size:0.75rem;">📜 Fix-Snippets zum manuellen Übernehmen &amp; Low-RAM Startbefehl</summary><pre class="code-out" style="max-height:200px;margin-top:6px;">${[bp.mail_service_fix, bp.player_auth_fix, bp.ultra_low_ram_start_cmd].filter(Boolean).join('\n\n')}</pre></details>` : '');
     }
 
     async function shieldBlock() {

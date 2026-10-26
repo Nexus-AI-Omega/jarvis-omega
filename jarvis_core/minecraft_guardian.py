@@ -246,20 +246,75 @@ def check_papermc_updates(mc_version: str = "1.21.4") -> Dict[str, Any]:
         }
 
 
+READONLY_REPO_MARKER = "minecraft-server-dashboard"
+
+
+def is_readonly_upstream_repo(target_dir: str) -> bool:
+    """
+    HARTE SCHUTZREGEL (Nutzer-Vorgabe): Das Repository `minecraft-server-dashboard`
+    darf NIEMALS bearbeitet, gepusht oder gelöscht werden — auch nicht in einer lokalen Kopie.
+    Diese Funktion erkennt, ob `target_dir` (oder ein übergeordneter Ordner) ein Git-Checkout
+    dieses Repositories ist (Ordner-Name, Remote-URL oder `.git/config`).
+    """
+    try:
+        p = Path(target_dir).resolve()
+    except Exception:
+        p = Path(target_dir)
+    for candidate in [p, *p.parents]:
+        name = candidate.name.lower()
+        if READONLY_REPO_MARKER in name:
+            return True
+        git_config = candidate / ".git" / "config"
+        if git_config.is_file():
+            try:
+                cfg = git_config.read_text(encoding="utf-8", errors="replace").lower()
+                if READONLY_REPO_MARKER in cfg:
+                    return True
+            except Exception:
+                pass
+        if (candidate / ".git").exists() and READONLY_REPO_MARKER in str(candidate).lower():
+            return True
+    return False
+
+
 def audit_and_patch_dashboard_folder(target_dir: str, apply_fixes: bool = False) -> Dict[str, Any]:
     """
-    Autonomous Codebase Doctor for `minecraft-server-dashboard`:
-    Detects and optionally auto-patches (with .bak backup) the 6 critical/medium bugs & security issues:
+    Autonomous Codebase Doctor for `minecraft-server-dashboard` — STRIKT READ-ONLY:
+
+    Analysiert die 6 kritischen/medium Befunde ausschliesslich lesend:
     1. Hardcoded Gmail App Password in `dashboard/server/services/mail-service.js`
     2. `rejectUnauthorized: false` TLS bypass in `dashboard/server/services/mail-service.js`
     3. Unescaped HTML in `mail-service.js`
     4. `simulatedCode` account takeover leak in `dashboard/server/routes/player-auth.js`
     5. Non-cryptographic `Math.random()` OTP generation in `dashboard/server/routes/player-auth.js`
     6. Invalid `gemini-3.8-flash` model string in `dashboard/server/services/ai-sentinel.js`
+
+    Schreibende Aenderungen an diesem Repository sind PERMANENT DEAKTIVIERT: `apply_fixes=True`
+    wird fuer dieses Repo hart abgewiesen (`blocked_by_policy`). Statt eines Patches liefert
+    Jarvis einen fertigen Fix-Blueprint, den der Mensch selbst anwenden kann.
     """
     root = Path(target_dir)
     issues_found: List[Dict[str, Any]] = []
     patches_applied: List[str] = []
+
+    readonly_repo = is_readonly_upstream_repo(target_dir)
+    if readonly_repo and apply_fixes:
+        return {
+            "ok": True,
+            "target_dir": str(root),
+            "exists_locally": root.exists(),
+            "blocked_by_policy": True,
+            "policy": "STRICT_READ_ONLY",
+            "message": (
+                "🛑 BLOCKIERT: Das Repository 'minecraft-server-dashboard' ist per harter Regel "
+                "schreibgeschuetzt. Es wird nichts bearbeitet, gepusht oder geloescht. "
+                "Hier ist der fertige Fix-Blueprint zum manuellen Anwenden."
+            ),
+            "issues_found": [],
+            "ready_made_fixes": get_dashboard_patch_blueprint(),
+        }
+
+    allow_write = bool(apply_fixes) and not readonly_repo
 
     if not root.exists():
         return {
@@ -300,7 +355,7 @@ def audit_and_patch_dashboard_folder(target_dir: str, apply_fixes: bool = False)
                 "rejectUnauthorized: process.env.SMTP_ALLOW_INSECURE !== 'true'",
             )
 
-        if apply_fixes and modified != content:
+        if allow_write and modified != content:
             shutil.copy2(mail_js, str(mail_js) + ".jarvis.bak")
             mail_js.write_text(modified, encoding="utf-8")
             patches_applied.append("dashboard/server/services/mail-service.js gepatcht (.jarvis.bak Backup erstellt)")
@@ -335,7 +390,7 @@ def audit_and_patch_dashboard_folder(target_dir: str, apply_fixes: bool = False)
                 "crypto.randomInt(100000, 1000000)",
             )
 
-        if apply_fixes and modified != content:
+        if allow_write and modified != content:
             shutil.copy2(auth_js, str(auth_js) + ".jarvis.bak")
             auth_js.write_text(modified, encoding="utf-8")
             patches_applied.append("dashboard/server/routes/player-auth.js gepatcht (.jarvis.bak Backup erstellt)")
@@ -351,7 +406,7 @@ def audit_and_patch_dashboard_folder(target_dir: str, apply_fixes: bool = False)
                 "title": "Ungültiger Modellname 'gemini-3.8-flash' in AI-Sentinel",
                 "fix": "Auf process.env.GEMINI_MODEL || 'gemini-2.5-flash' aktualisiert.",
             })
-            if apply_fixes:
+            if allow_write:
                 shutil.copy2(sentinel_js, str(sentinel_js) + ".jarvis.bak")
                 sentinel_js.write_text(
                     content.replace("'gemini-3.8-flash'", "(process.env.GEMINI_MODEL || 'gemini-2.5-flash')"),

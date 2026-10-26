@@ -86,3 +86,15 @@ Solve the complete problem with the least new code. Climb this ladder from top t
   2. Never exfiltrate `.env`, SSH keys, or API credentials via shell/network commands.
   3. Never run destructive filesystem wipes (`rm -rf /`, `mkfs`, `dd` on system devices).
   4. Scan all generated diffs for hardcoded secrets, SQLi, XSS, SSRF, and command injection before commit.
+
+## 🛑 HARTE REGEL — `minecraft-server-dashboard` ist STRIKT READ-ONLY
+
+Das Repository `Nexus-AI-Omega/minecraft-server-dashboard` darf **niemals** bearbeitet,
+gepusht, gelöscht, geforkt oder anderweitig verändert werden — auch nicht in einer lokalen Kopie.
+
+- Analyse ausschließlich lesend (`git clone` in ein temporäres Verzeichnis, danach löschen).
+- `audit_and_patch_dashboard_folder(..., apply_fixes=True)` wird für dieses Repo durch
+  `is_readonly_upstream_repo()` hart blockiert (`blocked_by_policy: STRICT_READ_ONLY`).
+- Der API-Endpunkt `/api/sovereign/mc-audit-heal` ruft den Auditor serverseitig **immer** mit
+  `apply_fixes=False` auf. Statt Patches liefert Jarvis einen Fix-Blueprint zum manuellen Anwenden.
+- Schreibzugriff gibt es ausschließlich auf `Nexus-AI-Omega/jarvis-omega`.

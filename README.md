@@ -94,5 +94,12 @@ POST /api/sovereign/support-ticket  # {"player":"Steve_DE","message":"..."}
 `gehirn.py` kennt jetzt zusätzlich: `pc_status`, `ram_optimieren`, `minecraft_status`,
 `minecraft_befehl`, `cyber_shield`, `plugin_bauen`, `spieler_support`.
 
-> **Sicherheit:** Jeder Systembefehl läuft durch den Claude-Security-Gate, alle Fixes am Dashboard-Repo
-> erzeugen vorher `.jarvis.bak`-Backups, und das fremde Repository wird **niemals** gepusht oder gelöscht.
+> **Sicherheit:** Jeder Systembefehl läuft durch den Claude-Security-Gate.
+>
+> ### 🛑 Harte Regel: `minecraft-server-dashboard` ist STRIKT READ-ONLY
+> Das Repository `Nexus-AI-Omega/minecraft-server-dashboard` wird **niemals** bearbeitet, gepusht,
+> gelöscht oder geforkt — auch nicht in einer lokalen Kopie. Der Code-Doctor prüft ausschließlich lesend;
+> `apply_fixes=True` wird von `is_readonly_upstream_repo()` hart mit `blocked_by_policy: STRICT_READ_ONLY`
+> abgewiesen, und `/api/sovereign/mc-audit-heal` ruft ihn serverseitig immer mit `apply_fixes=False` auf.
+> Du bekommst stattdessen einen fertigen Fix-Blueprint, den **du** selbst übernehmen kannst.
+> Schreibzugriff hat Jarvis ausschließlich auf `Nexus-AI-Omega/jarvis-omega`.
