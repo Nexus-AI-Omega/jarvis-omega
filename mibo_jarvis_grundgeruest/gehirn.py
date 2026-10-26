@@ -10,7 +10,9 @@ dann ohne Werkzeuge, nur mit Wissen.
 """
 
 import json
+import os
 import re
+import sys
 import time
 
 import anthropic
@@ -24,6 +26,24 @@ import post
 import ruhe
 import termine
 import wetter
+
+
+def _omega():
+    """Laedt die J.A.R.V.I.S. OMEGA Module (PC-Commander, Cyber-Shield, Minecraft-Guardian,
+    Plugin-Forge) aus dem uebergeordneten Projektordner. Optional — fehlt etwas, bleiben die
+    Omega-Werkzeuge einfach aus."""
+    try:
+        hier = os.path.dirname(os.path.abspath(__file__))
+        wurzel = os.path.dirname(hier)
+        if wurzel not in sys.path:
+            sys.path.insert(0, wurzel)
+        from jarvis_core import pc_commander, cyber_shield, minecraft_guardian, plugin_forge
+        return pc_commander, cyber_shield, minecraft_guardian, plugin_forge
+    except Exception:
+        return None
+
+
+OMEGA = _omega()
 
 _client = anthropic.AsyncAnthropic(api_key=konfig.get("anthropic_api_key") or None)
 MAX_RUNDEN = 6            # so oft darf Claude hintereinander Werkzeuge benutzen
@@ -97,6 +117,31 @@ def _werkzeuge() -> list[dict]:
     if post.aktiv():
         w.append({"name": "mails", "description": "Ungelesene E-Mails (Absender und Betreff).",
                   "input_schema": {"type": "object", "properties": {"anzahl": {"type": "integer"}}}})
+    if OMEGA:
+        w += [
+            {"name": "pc_status", "description": "Vollstaendiger PC-Status: CPU, RAM, Festplatte, Laufzeitumgebungen "
+                                                "und die groessten Speicherfresser.", "input_schema": {"type": "object", "properties": {}}},
+            {"name": "ram_optimieren", "description": "RAM aktiv reduzieren (Garbage Collector, Heap-Trim, Caches) "
+                                                      "und ein Low-RAM-Minecraft-Profil erzeugen.",
+             "input_schema": {"type": "object", "properties": {"max_ram_gb": {"type": "integer"}}}},
+            {"name": "minecraft_status", "description": "Status von Minecraft-Server (25565/25575) und Dashboard (3000).",
+             "input_schema": {"type": "object", "properties": {}}},
+            {"name": "minecraft_befehl", "description": "Minecraft-Server steuern: Lag-Clear, Neustart, Notfall-Lockdown "
+                                                       "oder beliebiger RCON-Befehl.",
+             "input_schema": {"type": "object", "properties": {
+                 "aktion": {"type": "string", "enum": ["clear_lag", "restart", "emergency_lockdown"]},
+                 "befehl": {"type": "string", "description": "Nur fuer freie RCON-Befehle"}}}},
+            {"name": "cyber_shield", "description": "Anti-DDoS- und Anti-Hacker-Lage pruefen (Sockets, SYN-Flood, "
+                                                    "verdaechtige IPs, RCON-Exposition).",
+             "input_schema": {"type": "object", "properties": {}}},
+            {"name": "plugin_bauen", "description": "Ein komplettes Minecraft-Paper-1.21-Plugin aus einer Idee "
+                                                    "generieren (Java 21, Maven, fertig kompilierbar).",
+             "input_schema": {"type": "object", "properties": {
+                 "name": {"type": "string"}, "idee": {"type": "string"}}, "required": ["idee"]}},
+            {"name": "spieler_support", "description": "Spieler-Ticket beantworten und passende Sofort-Massnahme vorschlagen.",
+             "input_schema": {"type": "object", "properties": {
+                 "spieler": {"type": "string"}, "nachricht": {"type": "string"}}, "required": ["nachricht"]}},
+        ]
     return w
 
 
@@ -126,6 +171,41 @@ async def _ausfuehren(name: str, e: dict) -> str:
         return await kalender.termine(int(e.get("tage") or 7))
     if name == "mails":
         return await post.ungelesen(int(e.get("anzahl") or 10))
+    if OMEGA and name in ("pc_status", "ram_optimieren", "minecraft_status", "minecraft_befehl",
+                          "cyber_shield", "plugin_bauen", "spieler_support"):
+        pc, shield, guardian, forge = OMEGA
+        if name == "pc_status":
+            s = pc.get_full_pc_status()
+            ram, disk = s["ram"], s["disk"]
+            top = ", ".join(f"{p['name']} {p.get('mem_mb', p.get('ram_mb', 0))} MB" for p in s.get("top_processes", [])[:5])
+            return (f"{s['hostname']} ({s['os']}): CPU {s['cpu_load_pct']} %, RAM {ram['pct']} % "
+                    f"({ram['used_mb']} von {ram['total_mb']} MB), Platte {disk['pct']} % belegt. "
+                    f"Groesste Speicherfresser: {top or 'unbekannt'}.")
+        if name == "ram_optimieren":
+            r = pc.reduce_pc_ram(aggressive=True, clean_temp=True)
+            b = guardian.generate_low_ram_server_bundle(int(e.get("max_ram_gb") or 3))
+            return (f"RAM-Optimierung fertig: {r['freed_mb']} MB freigegeben, jetzt {r['after_ram']['pct']} % belegt. "
+                    f"Massnahmen: {'; '.join(r['actions_taken'])}. Minecraft-Profil gespeichert in {b['output_dir']} "
+                    f"({b['estimated_ram_savings_pct']} % Ersparnis).")
+        if name == "minecraft_status":
+            m = guardian.check_minecraft_and_dashboard_live()
+            return (f"Minecraft 25565: {m['mc_java_port_25565']}, RCON 25575: {m['mc_rcon_port_25575']}, "
+                    f"Dashboard 3000: {m['dashboard_port_3000']}, Dashboard-API: {m['dashboard_api_status']}.")
+        if name == "minecraft_befehl":
+            res = guardian.execute_minecraft_control(e.get("aktion") or "clear_lag", e.get("befehl", ""))
+            return json.dumps(res, ensure_ascii=False)[:900]
+        if name == "cyber_shield":
+            n = shield.inspect_network_shield()
+            return (f"Lage {n['ddos_status']}, {n['total_active_sockets']} Sockets, SYN-Queue {n['syn_recv_queue']}, "
+                    f"verdaechtige IPs: {n['suspicious_ips'] or 'keine'}. RCON nur lokal erreichbar: "
+                    f"{'ja' if n['rcon_localhost_safe'] else 'NEIN'}.")
+        if name == "plugin_bauen":
+            p = forge.forge_minecraft_plugin(e.get("name") or "JarvisOmegaGuard", e["idee"])
+            return (f"Plugin {p['plugin_name']} erzeugt, Befehl {p['command']}, Dateien: "
+                    f"{', '.join(p['files_created'])}.")
+        if name == "spieler_support":
+            t = forge.handle_support_ticket(e.get("spieler") or "Spieler", e["nachricht"])
+            return f"Kategorie {t['category']}, Auto-Massnahme {t['recommended_auto_action']}: {t['support_reply']}"
     return f"Unbekanntes Werkzeug {name}"
 
 

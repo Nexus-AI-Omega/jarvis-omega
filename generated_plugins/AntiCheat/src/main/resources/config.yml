@@ -1,0 +1,18 @@
+# ==========================================================
+# AntiCheat - Generiert von J.A.R.V.I.S. OMEGA Plugin-Forge
+# Idee: Anti-Cheat mit Fly-Erkennung und Auto-RAM
+# ==========================================================
+prefix: "&8[&bJ.A.R.V.I.S.&8] &7"
+anti-hacker:
+  enabled: true
+  block-jndi-exploits: true
+  max-speed-delta: 1.65
+  auto-kick-on-exploit: true
+ram-optimizer:
+  enabled: true
+  auto-clear-items-minutes: 15
+  ram-warn-percent: 85
+custom-idea:
+  title: "AntiCheat"
+  description: "Anti-Cheat mit Fly-Erkennung und Auto-RAM"
+  reward-xp: 50

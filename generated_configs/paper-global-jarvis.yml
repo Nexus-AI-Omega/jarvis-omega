@@ -1,0 +1,18 @@
+# J.A.R.V.I.S. OMEGA — Ultra-Low-RAM & Anti-Crash Paper-Konfiguration
+packet-limiter:
+  all-packets:
+    action: KICK
+    interval: 7.0
+    max-packet-rate: 350.0
+book-size:
+  page-max: 2560
+  total-multiplier: 0.98
+chunk-loading-advanced:
+  auto-config-send-distance: true
+  player-max-concurrent-chunk-generates: 2
+  player-max-concurrent-chunk-loads: 4
+item-validation:
+  book:
+    author: 64
+    page: 8192
+    title: 64

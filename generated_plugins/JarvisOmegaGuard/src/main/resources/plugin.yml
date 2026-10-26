@@ -1,0 +1,18 @@
+name: JarvisOmegaGuard
+version: '1.0.0-OMEGA'
+main: de.jarvisomega.jarvisomegaguard.JarvisOmegaGuardPlugin
+api-version: '1.21'
+authors: [Nexus-AI-Omega & JARVIS]
+description: 'Anti-Cheat & RAM'
+commands:
+  jarvisomegaguard:
+    description: 'Hauptbefehl fuer JarvisOmegaGuard (generiert von J.A.R.V.I.S. OMEGA)'
+    usage: '/jarvisomegaguard <status|heal|ram|shield|idea|support>'
+    permission: jarvisomegaguard.use
+permissions:
+  jarvisomegaguard.admin:
+    description: 'Voller Admin-Zugriff auf JarvisOmegaGuard'
+    default: op
+  jarvisomegaguard.use:
+    description: 'Standard-Zugriff fuer Spieler'
+    default: true

