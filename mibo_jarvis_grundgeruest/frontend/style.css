@@ -1,0 +1,60 @@
+:root {
+    --hintergrund: #04070f;
+    --text: #d7e6ff;
+    --leise: #6f7f99;
+    --akzent: #2896ff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: radial-gradient(ellipse at 50% 40%, #0a1a33 0%, var(--hintergrund) 70%);
+    color: var(--text);
+    font-family: system-ui, "Ubuntu", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vh;
+    padding: 16px;
+    width: 100%;
+}
+
+#gesicht {
+    width: min(60vh, 85vw);
+    height: min(60vh, 85vw);
+    cursor: pointer;
+    border-radius: 6%;
+    /* Rahmen wie eine leuchtende Matrix */
+    box-shadow: 0 0 0 3px #1e78ff55, 0 0 60px #1e78ff33;
+}
+
+#gespraech {
+    max-width: 900px;
+    text-align: center;
+    min-height: 5em;
+}
+
+#du {
+    color: var(--leise);
+    font-size: 1.1rem;
+    margin-bottom: .6em;
+}
+
+#jarvis {
+    font-size: 1.4rem;
+    line-height: 1.4;
+}
+
+#hinweis {
+    color: var(--leise);
+    font-size: .9rem;
+    letter-spacing: .05em;
+}

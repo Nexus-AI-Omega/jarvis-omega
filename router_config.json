@@ -1,0 +1,31 @@
+{
+  "strategy": "hybrid_auto_fallback",
+  "omniroute_url": "http://127.0.0.1:20128/v1",
+  "freellmapi_url": "http://127.0.0.1:3001/v1",
+  "ollama_url": "http://127.0.0.1:11434/v1",
+  "custom_base_url": "",
+  "custom_api_key": "",
+  "custom_model": "auto",
+  "airllm_model": "meta-llama/Meta-Llama-3-70B-Instruct",
+  "airllm_compression": "4bit-layerwise",
+  "active_modes": {
+    "karpathy": true,
+    "ponytail": true,
+    "adhd": true,
+    "caveman": true,
+    "superpowers": true,
+    "godmode": true,
+    "security": true
+  },
+  "stats": {
+    "total_requests": 0,
+    "total_tokens_in": 0,
+    "total_tokens_saved": 0,
+    "provider_hits": {
+      "OmniRoute / FreeLLMAPI (Free Tier)": 0,
+      "AirLLM / Ollama (Local)": 0,
+      "Custom Cloud API": 0,
+      "Stark Tactical Core (Local Synthesis)": 0
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# Persoenliche Einstellungen und Zugaenge — nie weitergeben
+config.json
+# Was Jarvis sich merkt (Gedaechtnis, Gespraeche, Timer, Erinnerungen)
+daten/*
+!daten/.gitkeep
+__pycache__/
+*.pyc
+.venv/
+*.log
