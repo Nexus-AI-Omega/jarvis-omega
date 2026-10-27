@@ -740,6 +740,11 @@ def run_user_query(db, user_id, cmd):
             <button class="btn secondary" onclick="mcUpdates()">⬆️ PaperMC-Updates</button>
           </div>
           <div class="input-row" style="margin-bottom:8px;">
+            <input type="text" id="mc-domain-input" placeholder="Server-Domain, z.B. jarvisrealm.com (nach dem Kauf hier eintragen)" />
+            <button class="btn secondary" onclick="saveServerDomain()">💾 Domain speichern</button>
+          </div>
+          <div id="mc-domain-result" style="font-size:0.76rem;color:var(--green);margin-bottom:6px;"></div>
+          <div class="input-row" style="margin-bottom:8px;">
             <input type="text" id="mc-cmd-input" placeholder="Beliebiger RCON-Befehl, z.B. say Hallo Sir" />
             <button class="btn" onclick="mcControl('rcon', document.getElementById('mc-cmd-input').value)">RCON ⚡</button>
           </div>
@@ -1598,8 +1603,13 @@ def run_user_query(db, user_id, cmd):
           <tr><td>RCON 25575 (nur localhost)</td><td style="text-align:right;">${dot(isOpen(mc.mc_rcon_port_25575))}</td></tr>
           <tr><td>Dashboard 3000</td><td style="text-align:right;">${dot(isOpen(mc.dashboard_port_3000))}</td></tr>
         </table>
-        <div style="margin-top:6px;font-size:0.74rem;color:var(--muted);">Dashboard-API: <strong style="color:var(--cyan);">${mc.dashboard_api_status || 'n/a'}</strong> · Letzte Guardian-Aktionen: <strong>${(mc.recent_actions || []).length}</strong></div>`;
+        <div style="margin-top:6px;font-size:0.74rem;color:var(--muted);">Dashboard-API: <strong style="color:var(--cyan);">${mc.dashboard_api_status || 'n/a'}</strong> · Letzte Guardian-Aktionen: <strong>${(mc.recent_actions || []).length}</strong></div>
+        ${(mc.config && mc.config.server_domain) ? `<div style="margin-top:8px;padding:8px 10px;background:rgba(0,255,157,0.08);border:1px solid rgba(0,255,157,0.35);border-radius:8px;font-size:0.79rem;">
+          🌐 <strong style="color:var(--green);">Spieler-Adresse:</strong> <code style="color:var(--gold);font-size:0.92rem;">${mc.config.server_domain}</code>
+          <span style="color:var(--muted);"> · play.${mc.config.server_domain}</span></div>` : `<div style="margin-top:8px;font-size:0.76rem;color:var(--gold);">🌐 Noch keine Server-Domain gesetzt — unten eintragen, sobald die Domain registriert ist.</div>`}`;
       const cfg = mc.config || {};
+      const domField = document.getElementById('mc-domain-input');
+      if (domField && !domField.value && cfg.server_domain) domField.value = cfg.server_domain;
       document.getElementById('mc-extra').innerHTML = Object.keys(cfg).length ? `
         <details><summary style="font-size:0.76rem;color:var(--cyan);cursor:pointer;">⚙️ Guardian-Konfiguration (RCon/Auto-Heal)</summary>
         <pre class="code-out" style="max-height:150px;margin-top:6px;">${JSON.stringify(cfg, null, 2)}</pre></details>` : '';
@@ -1643,6 +1653,21 @@ def run_user_query(db, user_id, cmd):
       el.innerHTML = `✅ <strong style="color:var(--green);">${r.freed_mb ?? 0} MB freigegeben</strong> — jetzt ${r.after_ram ? r.after_ram.used_mb : '?'} MB (${r.after_ram ? r.after_ram.pct : '?'}%)<br>` +
         (r.actions_taken || []).map(a => `&nbsp;• ${a}`).join('<br>') +
         `<br><span style="color:var(--gold);">Minecraft-JVM: ${(d.mc_bundle && d.mc_bundle.jvm_command) || ''}</span>`;
+      loadSovereign();
+    }
+
+    async function saveServerDomain() {
+      const el = document.getElementById('mc-domain-result');
+      const domain = document.getElementById('mc-domain-input').value.trim();
+      const res = await fetch('/api/sovereign/set-domain', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({domain})
+      });
+      const d = await res.json();
+      if (!d.ok) { el.style.color = 'var(--red)'; el.textContent = '❌ ' + (d.error || 'Fehler'); return; }
+      el.style.color = 'var(--green)';
+      el.innerHTML = d.server_domain
+        ? `✅ Gespeichert: <strong>${d.join_address}</strong> — Spieler joinen mit <code>${d.join_address}</code><br><span style="color:var(--muted);">DNS: ${d.dns_records.join(' &nbsp;|&nbsp; ')}</span>`
+        : 'Domain entfernt.';
       loadSovereign();
     }
 

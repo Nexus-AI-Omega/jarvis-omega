@@ -61,6 +61,7 @@ from jarvis_core.pc_commander import (
     run_pc_Task,
 )
 from jarvis_core.minecraft_guardian import (
+    set_server_domain,
     check_minecraft_and_dashboard_live,
     execute_minecraft_control,
     check_papermc_updates,
@@ -698,6 +699,11 @@ class JarvisRequestHandler(BaseHTTPRequestHandler):
             res = execute_minecraft_control(action=action, custom_cmd=custom_cmd)
             set_face_state(zustand="spricht", text=f"Minecraft-Befehl {action} ausgeführt.")
             self._send_json({"ok": True, "result": res, "minecraft": check_minecraft_and_dashboard_live()})
+            return
+
+        if path == "/api/sovereign/set-domain":
+            res = set_server_domain(str(body.get("domain", "")))
+            self._send_json(res)
             return
 
         if path == "/api/sovereign/mc-updates":

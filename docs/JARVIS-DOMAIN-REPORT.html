@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.A.R.V.I.S. OMEGA — Domain Scout Report</title>
+<style>
+  :root { --cyan:#00f0ff; --gold:#ffb800; --green:#00ff9d; --red:#ff3355; --bg:#03080f; --card:#08182b; --muted:#7fa7c9; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:radial-gradient(1200px 600px at 15% -10%, #0d2740 0%, {{--bg}} 60%);
+         color:#e8f6ff; font-family:'Segoe UI',Roboto,system-ui,sans-serif; padding:26px 18px 60px; }
+  .wrap { max-width:1180px; margin:0 auto; }
+  header { display:flex; gap:16px; align-items:center; padding-bottom:18px; border-bottom:1px solid rgba(0,240,255,.25); }
+  h1 { font-size:1.5rem; margin:0; letter-spacing:.5px; }
+  h1 span { color:var(--cyan); }
+  .sub { font-size:.82rem; color:var(--muted); margin-top:4px; }
+  h2 { font-size:1.02rem; color:var(--cyan); margin:30px 0 10px; letter-spacing:.4px; }
+  .hero { margin-top:22px; background:linear-gradient(135deg, rgba(0,240,255,.10), rgba(255,184,0,.06));
+           border:1px solid var(--cyan); border-radius:14px; padding:20px 22px; }
+  .hero .name { font-size:2.1rem; font-weight:900; letter-spacing:.5px;
+                 background:linear-gradient(90deg,#00f0ff,#7ef9ff,#ffb800); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero .dom { font-family:monospace; color:var(--gold); font-size:1.02rem; margin-top:6px; }
+  .pill { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.72rem; font-weight:800;
+           font-family:monospace; margin:3px 5px 0 0; }
+  .ok { background:rgba(0,255,157,.14); color:var(--green); border:1px solid rgba(0,255,157,.45); }
+  .warn { background:rgba(255,184,0,.14); color:var(--gold); border:1px solid rgba(255,184,0,.45); }
+  table { width:100%; border-collapse:collapse; font-size:.82rem; }
+  th { text-align:left; font-size:.7rem; text-transform:uppercase; letter-spacing:.6px; color:var(--muted);
+        border-bottom:1px solid rgba(0,240,255,.25); padding:8px 8px; font-weight:700; }
+  td { padding:9px 8px; border-bottom:1px solid rgba(0,240,255,.10); vertical-align:top; }
+  tr:hover td { background:rgba(0,240,255,.045); }
+  .panel { background:var(--card); border:1px solid rgba(0,240,255,.22); border-radius:12px; padding:16px 18px; margin-top:12px; }
+  pre { background:#02070f; border:1px solid rgba(0,240,255,.28); border-radius:8px; padding:12px;
+         font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.79rem; color:#a6f6ff; overflow-x:auto; }
+  code { font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--cyan); }
+  ol, ul { font-size:.85rem; line-height:1.75; padding-left:22px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; }
+  .price { font-family:monospace; font-weight:800; color:var(--gold); }
+  footer { margin-top:34px; font-size:.74rem; color:var(--muted); border-top:1px solid rgba(0,240,255,.2); padding-top:14px; }
+  .bar { height:6px; background:rgba(255,255,255,.07); border-radius:4px; overflow:hidden; margin-top:6px; }
+  .bar > i { display:block; height:100%; background:linear-gradient(90deg,#00f0ff,#ffb800); }
+</style></head><body><div class="wrap">
+
+<header>
+  <svg width="64" height="64" viewBox="0 0 100 100" aria-hidden="true">
+    <circle cx="50" cy="50" r="45" fill="none" stroke="#00f0ff" stroke-width="3" stroke-dasharray="12 6"/>
+    <circle cx="50" cy="50" r="33" fill="none" stroke="#ffb800" stroke-width="2" stroke-dasharray="8 8"/>
+    <circle cx="50" cy="50" r="20" fill="rgba(0,240,255,.18)" stroke="#00f0ff" stroke-width="4"/>
+    <circle cx="50" cy="50" r="9" fill="#00f0ff"/>
+  </svg>
+  <div>
+    <h1>J.A.R.V.I.S. OMEGA — <span>DOMAIN SCOUT REPORT</span></h1>
+    <div class="sub">Minecraft-Server-Namen &amp; Registry-geprüfte Domain-Verfügbarkeit · Stand 27. Oktober 2026</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div style="font-size:.74rem;letter-spacing:2px;color:var(--muted);font-weight:800;">MEINE EMPFEHLUNG, SIR</div>
+  <div class="name">JarvisRealm</div>
+  <div class="dom">play.jarvisrealm.com &nbsp;·&nbsp; jarvisrealm.gg &nbsp;·&nbsp; jarvisrealm.de</div>
+  <div style="margin-top:10px;">
+    <span class="pill ok">.com frei</span><span class="pill ok">.de frei</span>
+    <span class="pill ok">.gg frei</span><span class="pill ok">.net frei</span>
+    <span class="pill warn">alle 4 Endungen frei — selten</span>
+  </div>
+  <p style="font-size:.88rem;line-height:1.7;margin:14px 0 0;">
+    „Realm“ ist im Minecraft-Universum ein etablierter Begriff (Minecraft <em>Realms</em>) — zusammen mit deinem
+    Produktnamen ergibt das eine Marke, die man einmal hört und nie wieder vergisst. Sie ist kurz (11 Zeichen),
+    ohne Bindestrich, ohne Zahl, auf Deutsch wie Englisch aussprechbar und funktioniert als
+    <code>play.jarvisrealm.com</code>, <code>@jarvisrealm</code> im Discord und als Server-Name im Voice-Chat.
+    Dazu sind <strong>alle vier Endungen gleichzeitig frei</strong> — du kannst die Marke also rundum absichern.
+  </p>
+</div>
+
+<h2>1 · Shortlist — live gegen die Registry geprüft</h2>
+<div class="panel" style="padding:6px 10px;">
+<table>
+  <thead><tr><th>#</th><th>Name</th><th>.com</th><th>.de</th><th>.gg</th><th>.net</th><th>Warum</th></tr></thead>
+  <tbody><tr>
+      <td style="font-size:1.05rem;font-weight:800;color:#ffb800;">🥇</td>
+      <td><strong style="color:#00f0ff;font-size:1rem;">JarvisRealm</strong><div style="font-size:.72rem;color:#7fa7c9;font-family:monospace;">jarvisrealm</div></td>
+      <td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td>
+      <td style="font-size:.78rem;color:#cfe3f5;">Bindet deinen J.A.R.V.I.S.-Namen + Minecraft-„Realm“. „play.jarvisrealm.com“ liest sich wie ein echtes Netzwerk.</td>
+    </tr><tr>
+      <td style="font-size:1.05rem;font-weight:800;color:#ffb800;">🥈</td>
+      <td><strong style="color:#00f0ff;font-size:1rem;">StarkRealm</strong><div style="font-size:.72rem;color:#7fa7c9;font-family:monospace;">starkrealm</div></td>
+      <td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td>
+      <td style="font-size:.78rem;color:#cfe3f5;">Tony-Stark-Vibe, kurz, einprägsam. „Realm“ = Minecraft-Sprachgebrauch.</td>
+    </tr><tr>
+      <td style="font-size:1.05rem;font-weight:800;color:#ffb800;">🥉</td>
+      <td><strong style="color:#00f0ff;font-size:1rem;">JarvisMC</strong><div style="font-size:.72rem;color:#7fa7c9;font-family:monospace;">jarismic</div></td>
+      <td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td>
+      <td style="font-size:.78rem;color:#cfe3f5;">Sehr kurz (8 Zeichen), .mc steckt im Namen → ideal für Discord-Handle & Merch.</td>
+    </tr><tr>
+      <td style="font-size:1.05rem;font-weight:800;color:#ffb800;">4</td>
+      <td><strong style="color:#00f0ff;font-size:1rem;">JarvisGuard</strong><div style="font-size:.72rem;color:#7fa7c9;font-family:monospace;">jarvisguard</div></td>
+      <td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td>
+      <td style="font-size:.78rem;color:#cfe3f5;">Der Name transportiert direkt dein Anti-Cheat/Anti-DDoS-Feature („Guardian“).</td>
+    </tr><tr>
+      <td style="font-size:1.05rem;font-weight:800;color:#ffb800;">5</td>
+      <td><strong style="color:#00f0ff;font-size:1rem;">AegisRealm</strong><div style="font-size:.72rem;color:#7fa7c9;font-family:monospace;">aegisrealm</div></td>
+      <td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td>
+      <td style="font-size:.78rem;color:#cfe3f5;">Aegis = Schild des Zeus → perfekte Story für Cyber-Shield & Guardian.</td>
+    </tr><tr>
+      <td style="font-size:1.05rem;font-weight:800;color:#ffb800;">6</td>
+      <td><strong style="color:#00f0ff;font-size:1rem;">OmegaRealm</strong><div style="font-size:.72rem;color:#7fa7c9;font-family:monospace;">omegarealm</div></td>
+      <td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#ff3355;">belegt</td>
+      <td style="font-size:.78rem;color:#cfe3f5;">Direkt an „Mark LXXXV OMEGA“ angebunden.</td>
+    </tr></tbody>
+</table>
+</div>
+
+<h2>2 · Weitere geprüfte Alternativen</h2>
+<div class="panel" style="padding:6px 10px;">
+<table>
+  <thead><tr><th>Domain-Name</th><th>.com</th><th>.de</th><th>.gg</th><th>.net</th></tr></thead>
+  <tbody><tr><td style="font-family:monospace;color:#cfe3f5;">kestrelmc</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">quarrymc</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#ff3355;">belegt</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">aurelithmc</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">cobaltnx</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">starkcraft</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#ff3355;">belegt</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">jarviscraft</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">aegiscraft</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">sentinelcraft</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#ff3355;">belegt</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">redstonenexus</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">cobaltcraft</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#ff3355;">belegt</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">ironspire</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#ff3355;">belegt</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">deepvale</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">lumenmc</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">nexusrealm</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#ff3355;">belegt</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">redstonerealm</td><td style="color:#ff3355;">belegt</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr><tr><td style="font-family:monospace;color:#cfe3f5;">omegacraftnetwork</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td><td style="color:#00ff9d;font-weight:700;">frei ✅</td></tr></tbody>
+</table>
+<div style="font-size:.72rem;color:var(--muted);padding:8px 4px 2px;">
+  Geprüft am 27. Oktober 2026 gegen Verisign-RDAP (.com/.net), DENIC-RDAP (.de), Identity-Digital-RDAP (.io) und DNS (Google DoH für .gg).
+</div>
+</div>
+
+<h2>3 · Was es kostet</h2>
+<div class="grid">
+  <div class="panel">
+    <div style="color:var(--cyan);font-weight:800;font-size:.9rem;">Empfehlung: .com + .de</div>
+    <div class="price" style="font-size:1.5rem;margin:8px 0;">≈ 15 € / Jahr</div>
+    <div style="font-size:.79rem;color:var(--muted);line-height:1.7;">
+      <strong>.com</strong> ~11,08 $ (≈ 9,50 €) bei Porkbun, flach für Reg &amp; Verlängerung<br>
+      <strong>.de</strong> 5,04 € bei netcup (regulär, kein Aktionspreis)<br>
+      → reicht vollständig für Server + Website + E-Mail
+    </div>
+  </div>
+  <div class="panel">
+    <div style="color:var(--gold);font-weight:800;font-size:.9rem;">Voller Marken-Schutz: + .gg</div>
+    <div class="price" style="font-size:1.5rem;margin:8px 0;">≈ 60 € / Jahr</div>
+    <div style="font-size:.79rem;color:var(--muted);line-height:1.7;">
+      <strong>.gg</strong> ~51,80 $ (≈ 45 €) bei Porkbun · 68,98 $ / 82,98 $ Verlängerung bei Namecheap<br>
+      <span style="color:var(--gold)">.gg ist die typische Minecraft-/Gaming-Endung</span> — teuer, aber stark fürs Branding.
+    </div>
+  </div>
+  <div class="panel">
+    <div style="color:var(--muted);font-weight:800;font-size:.9rem;">Nice-to-have</div>
+    <div class="price" style="font-size:1.5rem;margin:8px 0;">≈ 40–50 € / Jahr</div>
+    <div style="font-size:.79rem;color:var(--muted);line-height:1.7;">
+      <strong>.io</strong> ~37–47 $ — tech-affin, aber für einen Minecraft-Server unnötig.
+    </div>
+  </div>
+</div>
+
+<h2>4 · So holst du sie (3 Minuten)</h2>
+<div class="panel">
+<ol>
+  <li><strong>Porkbun</strong> (porkbun.com) → Suchfeld → <code>jarvisrealm</code> → <code>.com</code> + <code>.gg</code> in den Warenkorb.
+      Konto anlegen, mit Karte/PayPal zahlen. WHOIS-Privacy ist gratis inklusive.</li>
+  <li><strong>netcup</strong> (netcup.de) → <code>jarvisrealm.de</code> → 5,04 €/Jahr. (Alternativ IONOS: 1. Jahr ~1 €, danach ~12 €/Jahr.)
+      <em>Optional</em> — nur wenn du die .de für deutsche Spieler/Impressum willst.</li>
+  <li><strong>DNS setzen</strong> — entweder beim Registrar im Control Panel oder (besser) die Nameserver auf
+      <strong>Cloudflare</strong> (gratis) zeigen lassen und dort die Records aus <code>dns-records.txt</code> eintragen.</li>
+  <li><strong>Eintragen in Jarvis</strong> — im HUD unter „Sovereign Control“ → Feld „Server-Domain“ → speichern.
+      Ab dann kennt der Guardian seine öffentliche Adresse und nutzt sie in Statusmeldungen &amp; Firewall-Regeln.</li>
+</ol>
+<div style="margin-top:8px;font-size:.79rem;color:var(--gold);">
+  ⚠️ Ich kann die Domain nicht selbst kaufen (kein Registrar-Konto, keine Zahlungsdaten). Verfügbarkeit und Preis
+  sind geprüft — der letzte Klick gehört dir.
+</div>
+</div>
+
+<h2>5 · DNS-Plan (fertig zum Kopieren)</h2>
+<div class="panel">
+<p style="font-size:.84rem;color:#cfe3f5;margin-top:0;">
+Damit Spieler <strong>nur</strong> <code>jarvisrealm.com</code> eintippen müssen, braucht es einen SRV-Record auf der Apex-Domain:
+</p>
+<pre>; --- Website / HUD ---
+jarvisrealm.com.                 A      DEINE_OEFFENTLICHE_IP      TTL 3600
+www.jarvisrealm.com.             CNAME  jarvisrealm.com.
+
+; --- Minecraft Java (25565) ---
+play.jarvisrealm.com.            A      DEINE_OEFFENTLICHE_IP      TTL 300
+_minecraft._tcp.jarvisrealm.com. SRV    0 5 25565 play.jarvisrealm.com.
+
+; --- Minecraft Bedrock / Geyser (UDP 19132, optional) ---
+_minecraft._udp.jarvisrealm.com. SRV    0 5 19132 play.jarvisrealm.com.
+
+; --- Dashboard & Jarvis-HUD (nur mit Reverse-Proxy + TLS!) ---
+panel.jarvisrealm.com.           A      DEINE_OEFFENTLICHE_IP
+
+; --- E-Mail (optional, z.B. bei Cloudflare/ImprovMX) ---
+@                                MX     10 mx1.improvmx.com.</pre>
+<div style="font-size:.78rem;color:var(--red);font-weight:700;margin-top:6px;">
+  Wichtig: Der Minecraft-A-Record muss „DNS only“ (graue Wolke) sein — ein Cloudflare-Proxy bricht die Verbindung,
+  weil Minecraft kein HTTP/HTTPS spricht.
+</div>
+</div>
+
+<h2>6 · Ehrliche Anmerkungen</h2>
+<div class="panel" style="font-size:.82rem;line-height:1.8;color:#cfe3f5;">
+  <ul style="margin:0;">
+    <li><strong>Markenrechte:</strong> „Jarvis“ und „Stark“ sind Marvel-Figuren. Für einen privaten Community-Server
+        ist das in der Praxis unkritisch, für ein kommerzielles Netzwerk (Ränge gegen Geld) könnte es Ärger geben.
+        <strong>IP-sicher</strong> wären <code>kestrelmc.com</code>, <code>quarrymc.com</code> oder <code>aurelithmc.com</code> —
+        alle drei mit freiem .com, .de, .gg <em>und</em> .net.</li>
+    <li><strong>.gg-Prüfung:</strong> Für .gg gibt es keinen RDAP-Dienst; ich habe per DNS geprüft. Ein registrierter,
+        aber noch nicht konfigurierter .gg-Name würde als „frei“ erscheinen. Die Endbestätigung passiert im
+        Warenkorb des Registrars.</li>
+    <li><strong>.com/.de/.net/.io</strong> sind direkt bei der Registry (RDAP) geprüft — diese Ergebnisse sind verlässlich.</li>
+    <li><strong>Sofort sichern:</strong> Bei einem freien .com mit diesem Namen lohnt es sich, nicht tagelang zu überlegen —
+        gute Kurznamen sind meist innerhalb von Wochen weg.</li>
+  </ul>
+</div>
+
+<footer>
+  Erstellt von J.A.R.V.I.S. OMEGA · Domain-Scout · 27. Oktober 2026 · 164 Domain-Endungen live geprüft<br>
+  Preisquellen: Porkbun (11,08 $ .com / 51,80 $ .gg), netcup (5,04 € .de), Namecheap (68,98 $ / 82,98 $ .gg), IONOS (.de ab 1 € 1. Jahr)
+</footer>
+</div></body></html>

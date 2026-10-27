@@ -95,3 +95,21 @@ POST /api/sovereign/support-ticket  # {"player":"Steve_DE","message":"..."}
 `minecraft_befehl`, `cyber_shield`, `plugin_bauen`, `spieler_support`.
 
 > **Sicherheit:** Jeder Systembefehl läuft durch den Claude-Security-Gate.
+
+---
+
+## 🌐 Server-Domain (Minecraft) — eintragen & loslegen
+
+Jarvis kennt seine öffentliche Adresse: HUD → **Sovereign Control** → Feld **„Server-Domain“** → speichern.
+Alternativ per API:
+
+```bash
+curl -X POST http://localhost:8080/api/sovereign/set-domain \
+     -H 'Content-Type: application/json' -d '{"domain":"jarvisrealm.com"}'
+```
+
+Die Domain wird dauerhaft in `generated_configs/guardian_domain.json` gespeichert und erscheint danach im
+Minecraft-Status als Spieler-Adresse (`play.jarvisrealm.com`). Fertige DNS-Records (A + SRV) liegen in
+`docs/dns-records.txt`; Namensrecherche und Registry-geprüfte Verfügbarkeit in `docs/JARVIS-DOMAIN-REPORT.html`.
+
+> **Wichtig:** Der Minecraft-A-Record muss „DNS only“ sein (graue Wolke) — ein Cloudflare-Proxy bricht die Verbindung.

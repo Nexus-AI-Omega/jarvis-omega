@@ -89,7 +89,63 @@ GUARDIAN_CONFIG: Dict[str, Any] = {
     "anti_hacker_autopunish": True,
 }
 
+DOMAIN_FILE = Path(__file__).resolve().parent.parent / "generated_configs" / "guardian_domain.json"
+
+
+def _load_saved_domain() -> str:
+    """Liest die zuletzt gespeicherte oeffentliche Server-Domain (persistiert ueber Neustarts)."""
+    try:
+        if DOMAIN_FILE.is_file():
+            return str(json.loads(DOMAIN_FILE.read_text(encoding="utf-8")).get("server_domain", "") or "")
+    except Exception:
+        pass
+    return ""
+
+
+GUARDIAN_CONFIG["server_domain"] = _load_saved_domain() or os.environ.get("MC_SERVER_DOMAIN", "")
+
 GUARDIAN_ACTION_LOG: List[Dict[str, Any]] = []
+
+
+def set_server_domain(domain: str) -> Dict[str, Any]:
+    """
+    Setzt die oeffentliche Server-Domain (z.B. 'jarvisrealm.com') und speichert sie dauerhaft.
+    Liefert direkt die passenden DNS-Records fuer den Registrar mit.
+    """
+    raw = str(domain or "").strip().lower()
+    raw = re.sub(r"^https?://", "", raw).strip("/")
+    raw = raw.split("/")[0]
+    if not raw:
+        GUARDIAN_CONFIG["server_domain"] = ""
+        try:
+            DOMAIN_FILE.parent.mkdir(parents=True, exist_ok=True)
+            DOMAIN_FILE.write_text(json.dumps({"server_domain": ""}, indent=2), encoding="utf-8")
+        except Exception:
+            pass
+        return {"ok": True, "server_domain": "", "message": "Server-Domain geloescht."}
+
+    if not re.fullmatch(r"(?=.{4,253}$)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,24}", raw):
+        return {"ok": False, "error": "Ungueltige Domain. Beispiel: jarvisrealm.com"}
+
+    GUARDIAN_CONFIG["server_domain"] = raw
+    try:
+        DOMAIN_FILE.parent.mkdir(parents=True, exist_ok=True)
+        DOMAIN_FILE.write_text(json.dumps({"server_domain": raw, "saved_at": time.strftime("%Y-%m-%d %H:%M:%S")}, indent=2), encoding="utf-8")
+    except Exception as exc:
+        return {"ok": False, "error": f"Konnte Domain nicht speichern: {exc}"}
+
+    _log_guardian_event("DOMAIN", f"Oeffentliche Server-Domain gesetzt: {raw}")
+    return {
+        "ok": True,
+        "server_domain": raw,
+        "join_address": raw,
+        "play_address": f"play.{raw}",
+        "message": f"Server-Domain gespeichert: {raw}. Spieler koennen mit '{raw}' joinen, sobald der SRV-Record steht.",
+        "dns_records": [
+            f"play.{raw}.            A     <DEINE_IP>            TTL 300",
+            f"_minecraft._tcp.{raw}. SRV   0 5 25565 play.{raw}.    TTL 300",
+        ],
+    }
 
 
 def _log_guardian_event(action: str, details: str, status: str = "OK") -> None:
