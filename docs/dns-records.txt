@@ -1,34 +1,34 @@
 ; ============================================================================
-;  JarvisRealm — DNS-Plan für J.A.R.V.I.S. OMEGA
+;  VARDHELM — DNS-Plan für J.A.R.V.I.S. OMEGA (Vorlage: Namen anpassen)
 ;  Ersetze DEINE_OEFFENTLICHE_IP durch deine echte öffentliche IPv4.
 ;  (Windows:  curl ifconfig.me   ·   Linux:  curl -4 ifconfig.me)
 ; ============================================================================
 
 ; --- 1) Website / Jarvis-HUD -------------------------------------------------
-jarvisrealm.com.                  A      DEINE_OEFFENTLICHE_IP      TTL 3600
-www.jarvisrealm.com.              CNAME  jarvisrealm.com.            TTL 3600
+vardhelm.com.                  A      DEINE_OEFFENTLICHE_IP      TTL 3600
+www.vardhelm.com.              CNAME  vardhelm.com.            TTL 3600
 
 ; --- 2) Minecraft Java Edition ----------------------------------------------
-;      play.jarvisrealm.com  ->  dein Server
-play.jarvisrealm.com.             A      DEINE_OEFFENTLICHE_IP      TTL 300
+;      play.vardhelm.com  ->  dein Server
+play.vardhelm.com.             A      DEINE_OEFFENTLICHE_IP      TTL 300
 
-;      SRV-Record: damit Spieler NUR "jarvisrealm.com" eintippen müssen.
+;      SRV-Record: damit Spieler NUR "vardhelm.com" eintippen müssen.
 ;      Format: Priorität Gewichtung Port Ziel
-_minecraft._tcp.jarvisrealm.com.  SRV    0 5 25565 play.jarvisrealm.com.   TTL 300
+_minecraft._tcp.vardhelm.com.  SRV    0 5 25565 play.vardhelm.com.   TTL 300
 
 ; --- 3) Minecraft Bedrock / Geyser (nur wenn du Crossplay nutzt) -------------
-_minecraft._udp.jarvisrealm.com.  SRV    0 5 19132 play.jarvisrealm.com.   TTL 300
+_minecraft._udp.vardhelm.com.  SRV    0 5 19132 play.vardhelm.com.   TTL 300
 
 ; --- 4) Dashboard & Panels (NUR mit Reverse-Proxy + TLS veröffentlichen) -----
-panel.jarvisrealm.com.            A      DEINE_OEFFENTLICHE_IP      TTL 300
+panel.vardhelm.com.            A      DEINE_OEFFENTLICHE_IP      TTL 300
 
 ; --- 5) Optional: E-Mail-Weiterleitung (ImprovMX, gratis) -------------------
 @                                 MX     10 mx1.improvmx.com.        TTL 3600
 @                                 MX     20 mx2.improvmx.com.        TTL 3600
 
 ; --- 6) Optional: Bestätigung für Discord/Server-Listings -------------------
-_dmarc.jarvisrealm.com.           TXT    "v=DMARC1; p=none; rua=mailto:admin@jarvisrealm.com"
-jarvisrealm.com.                  TXT    "v=spf1 include:spf.improvmx.com ~all"
+_dmarc.vardhelm.com.           TXT    "v=DMARC1; p=none; rua=mailto:admin@vardhelm.com"
+vardhelm.com.                  TXT    "v=spf1 include:spf.improvmx.com ~all"
 
 ; ============================================================================
 ;  WICHTIG
@@ -36,7 +36,7 @@ jarvisrealm.com.                  TXT    "v=spf1 include:spf.improvmx.com ~all"
 ;     Ein Cloudflare-Proxy bricht Minecraft-Verbindungen (kein HTTP/HTTPS).
 ;  2. TTL 300 für play.* = schnelle Umstellung bei IP-Wechsel.
 ;  3. Prüfen nach dem Eintragen:
-;       nslookup -type=SRV _minecraft._tcp.jarvisrealm.com
-;       nslookup play.jarvisrealm.com
+;       nslookup -type=SRV _minecraft._tcp.vardhelm.com
+;       nslookup play.vardhelm.com
 ;  4. Im Jarvis-HUD:  Sovereign Control  ->  Feld "Server-Domain"  ->  speichern
 ; ============================================================================

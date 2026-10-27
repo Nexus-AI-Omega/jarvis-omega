@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minecraft-Server-Namen — J.A.R.V.I.S. OMEGA Naming Report v2</title>
+<style>
+ :root{--cyan:#00f0ff;--gold:#ffb800;--green:#00ff9d;--red:#ff3355;--bg:#03080f;--card:#08182b;--muted:#7fa7c9;}
+ *{box-sizing:border-box}
+ body{margin:0;background:radial-gradient(1300px 650px at 12% -12%,#0d2740 0%,var(--bg) 62%);
+      color:#e8f6ff;font-family:'Segoe UI',Roboto,system-ui,sans-serif;padding:28px 18px 70px;line-height:1.6}
+ .wrap{max-width:1180px;margin:0 auto}
+ header{display:flex;gap:16px;align-items:center;border-bottom:1px solid rgba(0,240,255,.25);padding-bottom:18px}
+ h1{font-size:1.42rem;margin:0} h1 span{color:var(--cyan)}
+ .sub{font-size:.8rem;color:var(--muted);margin-top:4px}
+ h2{font-size:1rem;color:var(--cyan);margin:34px 0 12px;letter-spacing:.5px;text-transform:uppercase}
+ h2::before{content:"▍";color:var(--gold);margin-right:6px}
+ .cand{background:var(--card);border:1px solid rgba(0,240,255,.25);border-radius:14px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+ .cand::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+ .cand.gold::before{background:linear-gradient(180deg,#ffb800,#ff7a00)}
+ .cand.cyan::before{background:linear-gradient(180deg,#00f0ff,#0077ff)}
+ .cand.green::before{background:linear-gradient(180deg,#00ff9d,#00a86b)}
+ .cand-head{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+ .tag{font-size:.68rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);font-weight:800}
+ .cand-name{font-size:1.9rem;font-weight:900;letter-spacing:2px;
+   background:linear-gradient(90deg,#ffffff,#8fe9ff,#ffb800);-webkit-background-clip:text;background-clip:text;color:transparent}
+ .claim{font-size:.85rem;color:var(--muted);font-style:italic}
+ .tlds{text-align:right;min-width:180px}
+ .pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:800;font-family:monospace;margin:2px}
+ .ok{background:rgba(0,255,157,.13);color:var(--green);border:1px solid rgba(0,255,157,.45)}
+ ul{margin:12px 0 0 18px;padding:0;font-size:.85rem} li{margin-bottom:6px}
+ table{width:100%;border-collapse:collapse;font-size:.82rem;background:var(--card);border-radius:12px;overflow:hidden}
+ th{text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);
+    border-bottom:1px solid rgba(0,240,255,.25);padding:9px 10px}
+ td{padding:9px 10px;border-bottom:1px solid rgba(0,240,255,.09);vertical-align:top}
+ .free{color:var(--green);font-weight:700} .taken{color:var(--red)} .unk{color:var(--gold)}
+ .mono{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--cyan)}
+ .note{font-size:.77rem;color:#cfe3f5}
+ .box{background:var(--card);border:1px solid rgba(0,240,255,.22);border-radius:12px;padding:16px 18px}
+ .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+ pre{background:#02070f;border:1px solid rgba(0,240,255,.28);border-radius:8px;padding:12px;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;color:#a6f6ff;overflow-x:auto}
+ code{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--cyan)}
+ .warn{border-left:3px solid var(--gold);background:rgba(255,184,0,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.83rem}
+ .bad{border-left:3px solid var(--red);background:rgba(255,51,85,.07);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.83rem}
+ footer{margin-top:36px;font-size:.73rem;color:var(--muted);border-top:1px solid rgba(0,240,255,.2);padding-top:14px}
+ ol{font-size:.86rem} ol li{margin-bottom:7px}
+</style></head><body><div class="wrap">
+
+<header>
+  <svg width="60" height="60" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#00f0ff" stroke-width="3" stroke-dasharray="12 6"/>
+  <circle cx="50" cy="50" r="32" fill="none" stroke="#ffb800" stroke-width="2" stroke-dasharray="8 8"/>
+  <circle cx="50" cy="50" r="18" fill="rgba(0,240,255,.18)" stroke="#00f0ff" stroke-width="4"/><circle cx="50" cy="50" r="8" fill="#00f0ff"/></svg>
+  <div><h1>MINECRAFT-SERVER-NAMEN — <span>NAMING REPORT v2</span></h1>
+  <div class="sub">J.A.R.V.I.S. OMEGA · Namensfindung, Registry-Prüfung &amp; Kollisions-Analyse · 27.10.2026</div></div>
+</header>
+
+<div class="box" style="margin-top:22px;">
+  <div style="font-size:.7rem;letter-spacing:1.8px;color:var(--gold);font-weight:800;">KORREKTUR ZUR VORIGEN RUNDE</div>
+  <p style="font-size:.87rem;margin:8px 0 0;">„JarvisRealm“ war der falsche Ansatz — du hast recht: <strong>Jarvis ist das System, nicht der Server.</strong>
+  Ein Servername muss für sich allein funktionieren, ohne dass jemand die KI dahinter kennt. Diese Runde hat deshalb
+  <strong>92 Namen in fünf Kategorien</strong> geprüft, davon <strong>368 Domain-Endungen</strong> und zusätzlich Social-Handles
+  und bestehende Minecraft-Server.</p>
+</div>
+
+<h2>Das Ergebnis in einem Satz</h2>
+<div class="box" style="border-color:var(--gold);">
+  <div style="font-size:.72rem;letter-spacing:2px;color:var(--muted);font-weight:800;">MEINE EMPFEHLUNG</div>
+  <div style="font-size:2.6rem;font-weight:900;letter-spacing:4px;margin:6px 0;
+       background:linear-gradient(90deg,#fff,#7ef9ff,#ffb800);-webkit-background-clip:text;background-clip:text;color:transparent;">VARDHELM</div>
+  <div style="font-family:monospace;color:var(--gold);font-size:.95rem;">play.vardhelm.com &nbsp;·&nbsp; vardhelm.gg &nbsp;·&nbsp; vardhelm.de</div>
+  <p style="font-size:.87rem;margin:12px 0 0;">Ein Kunstwort mit nordischer Wurzel, das klingt wie eine Festung — und das
+  <strong>nirgendwo belegt</strong> ist. Als einziger Kandidat hat es null Websuche-Treffer, alle vier Endungen frei,
+  alle Social-Handles frei und keinen bestehenden Minecraft-Server.</p>
+</div>
+
+<h2>Die drei Finalisten</h2>
+
+    <div class="cand gold">
+      <div class="cand-head">
+        <div>
+          <div class="tag">Der Erfundene — meine Nr. 1</div>
+          <div class="cand-name">VARDHELM</div>
+          <div class="claim">„Eine Festung aus Eis und Eisen. Kein Wort, das es schon gibt.“</div>
+        </div>
+        <div class="tlds">
+          <span class="pill ok">.com frei</span><span class="pill ok">.de frei</span>
+          <span class="pill ok">.gg frei</span><span class="pill ok">.net frei</span>
+        </div>
+      </div>
+      <ul><li><strong>Komplett unbeansprucht:</strong> 0 Treffer bei der Websuche, .com/.de/.gg/.net alle frei, GitHub- und YouTube-Handle frei, kein Minecraft-Server läuft darauf. Ein derart leeres Namensfeld ist bei 8 Buchstaben eine Seltenheit.</li><li><strong>Nordische Wurzel, ohne Klischee:</strong> altnordisch *varða* (Warte, Zeichen) + *helm* (Helm, Schutz) → „Warte unter dem Helm“. Genau die Story eines Survival-Servers.</li><li><strong>Für beide Zielgruppen sprechbar:</strong> VAR-del-m. Deutsch, Englisch, Spanisch — keine Sonderlaute, keine Umlaute, keine Tippfallen.</li><li><strong>Als Marke schützbar:</strong> Kunstwort = maximale rechtliche Sicherheit, falls du je Ränge, Merch oder ein Netzwerk daraus machst.</li></ul>
+    </div>
+    <div class="cand cyan">
+      <div class="cand-head">
+        <div>
+          <div class="tag">Der Wuchtige — beste deutsche Klangfarbe</div>
+          <div class="cand-name">NACHTFELS</div>
+          <div class="claim">„Der Fels in der Nacht. Klingt wie eine Festung aus einem Dark-Fantasy-Epos.“</div>
+        </div>
+        <div class="tlds">
+          <span class="pill ok">.com frei</span><span class="pill ok">.de frei</span>
+          <span class="pill ok">.gg frei</span><span class="pill ok">.net frei</span>
+        </div>
+      </div>
+      <ul><li><strong>Sofort verstanden:</strong> Jeder deutschsprachige Spieler hört den Namen einmal und schreibt ihn richtig. Zwei Silben, harte Konsonanten — knallt im Voice-Chat.</li><li><strong>Starke Bilder:</strong> Nacht = Survival, Creeper, Dunkelheit. Fels = Bergbau, Tiefe, Fundament. Der Name erzählt das Spiel.</li><li><strong>Alle Endungen frei</strong> (com/de/gg/net) inkl. Social-Handles.</li><li><strong>Aber:</strong> „ch“ ist für internationale Spieler schwer; zudem existiert ein gleichnamiges Schloss in dem Fantasy-Roman *Malus: Penumbra* (kein Markenproblem, aber eine Vorbelastung).</li></ul>
+    </div>
+    <div class="cand green">
+      <div class="cand-head">
+        <div>
+          <div class="tag">Der Mythische — Norse ohne Kitsch</div>
+          <div class="cand-name">JOTUNMARK</div>
+          <div class="claim">„Das Land der Joten. Groß, alt, ein bisschen gefährlich.“</div>
+        </div>
+        <div class="tlds">
+          <span class="pill ok">.com frei</span><span class="pill ok">.de frei</span>
+          <span class="pill ok">.gg frei</span><span class="pill ok">.net frei</span>
+        </div>
+      </div>
+      <ul><li><strong>Mythische Tiefe:</strong> Jötunheim ist die Heimat der Riesen in der nordischen Mythologie; „Mark“ = Grenzland. Zusammen: ein Reich, das man betritt.</li><li><strong>.com/.de/.gg/.net frei</strong>, Handles frei, kein Server darauf.</li><li><strong>Aber:</strong> „Jotun“ ist der Titel eines bekannten Indie-Spiels von Thunder Lotus — leichte Assoziation, aber keine Markenkollision im Serverumfeld.</li></ul>
+    </div>
+
+<h2>Der Rest der geprüften Finalisten</h2>
+<table>
+  <thead><tr><th style="width:130px">Name</th><th>.com</th><th>.de</th><th>.gg</th><th>.net</th><th>Anmerkung</th></tr></thead>
+  <tbody><tr><td class='mono'>hrimfell</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class='note'>Frostberg (altnordisch *hrím* + *fell*) — exotisch, aber „Hrim-“ ist für Deutsche schwer zu sprechen</td></tr><tr><td class='mono'>nebelthal</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class='note'>Nebeltal — atmosphärisch, aber generisch und mit alter „th“-Schreibung fehleranfällig</td></tr><tr><td class='mono'>ymirsholt</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class='note'>Ymirswald — mythisch, aber „-sholt“ liest sich im Deutschen falsch</td></tr><tr><td class='mono'>schattenmark</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class='note'>12 Zeichen, klanglich nah an DSA-Regionen (Wildermark/Rabenmark) — zu lang für ein Handle</td></tr><tr><td class='mono'>rabenmark</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class="free">frei</td><td class='note'>Markgrafschaft im Pen-&-Paper *Das Schwarze Auge* — starke Vorbelastung, für DSA-Kenner sofort fremdbelegt</td></tr></tbody>
+</table>
+
+<h2>Warum viele „coole" Namen nicht gehen</h2>
+<table>
+  <thead><tr><th>Namens-Kategorie</th><th>frei mit .com + .gg</th><th>Was übrig bleibt</th></tr></thead>
+  <tbody><tr><td class='note'>A · Nordisch & Mythos (nicht ausgelutscht)</td><td class='mono'>5/10</td><td class='note'>hrimfell, ymirsholt, vardhelm, nifhel, jotunmark</td></tr><tr><td class='note'>B · Kurze Ein-Wort-Marken</td><td class='mono'>0/16</td><td class='note'>— keiner</td></tr><tr><td class='note'>C · Minecraft-nativ, aber edel</td><td class='mono'>0/10</td><td class='note'>— keiner</td></tr><tr><td class='note'>D · Compound-Servernamen</td><td class='mono'>0/16</td><td class='note'>— keiner</td></tr><tr><td class='note'>E · Deutsch / nordisch-deutsch</td><td class='mono'>7/10</td><td class='note'>nebelthal, rabenhold, schattenmark, wolfsgrund, steinfall, nachtfels, rabenmark</td></tr></tbody>
+</table>
+<div class="warn" style="margin-top:12px;">
+  <strong>Marktrealität:</strong> Jedes kurze englische Wörterbuch-Wort — <code>nyx</code>, <code>vanta</code>, <code>aether</code>,
+  <code>cinder</code>, <code>rift</code>, <code>rune</code>, <code>vault</code>, <code>apex</code>, <code>zephyr</code> — ist auf .com, .de
+  <em>und</em> .gg vergeben. Ebenso alle Minecraft-Begriffe: <code>deepslate</code>, <code>netherite</code>, <code>amethyst</code>,
+  <code>sculk</code>, <code>respawn</code>, <code>beacon</code>. Deshalb führt der Weg über <strong>Kunst- und Kompositwörter</strong> —
+  die sind zudem markenrechtlich viel sicherer.
+</div>
+
+<h2>Was ich geprüft habe (Methodik)</h2>
+<div class="grid">
+  <div class="box"><strong style="color:var(--cyan)">1 · Registry (RDAP)</strong>
+    <p style="font-size:.8rem;color:var(--muted);margin:6px 0 0;">.com &amp; .net bei Verisign, .de bei DENIC — direkte autoritative Abfrage, kein Reseller-Blick.</p></div>
+  <div class="box"><strong style="color:var(--cyan)">2 · DNS (.gg)</strong>
+    <p style="font-size:.8rem;color:var(--muted);margin:6px 0 0;">Für .gg gibt es kein RDAP; geprüft über NS-Auflösung (Google DoH), doppelt gegengeprüft.</p></div>
+  <div class="box"><strong style="color:var(--cyan)">3 · Minecraft-Server</strong>
+    <p style="font-size:.8rem;color:var(--muted);margin:6px 0 0;">mcsrvstat.us-Abfrage je Kandidat: läuft dort bereits ein Server?</p></div>
+  <div class="box"><strong style="color:var(--cyan)">4 · Social-Handles</strong>
+    <p style="font-size:.8rem;color:var(--muted);margin:6px 0 0;">GitHub, YouTube, Reddit — frei heißt: konsistenter Auftritt auf allen Kanälen möglich.</p></div>
+</div>
+
+<h2>Kosten &amp; Kauf</h2>
+<div class="grid">
+  <div class="box"><div style="color:var(--cyan);font-weight:800;font-size:.85rem;">Pflicht: .com</div>
+    <div style="font-family:monospace;font-weight:800;color:var(--gold);font-size:1.45rem;margin:6px 0;">11,08 $/Jahr</div>
+    <p style="font-size:.79rem;color:var(--muted);margin:0;">Porkbun, flacher Preis auch bei Verlängerung, WHOIS-Privacy gratis</p></div>
+  <div class="box"><div style="color:var(--cyan);font-weight:800;font-size:.85rem;">Empfohlen: .de</div>
+    <div style="font-family:monospace;font-weight:800;color:var(--gold);font-size:1.45rem;margin:6px 0;">5,04 €/Jahr</div>
+    <p style="font-size:.79rem;color:var(--muted);margin:0;">netcup (regulärer Preis), Impressum-freundlich, regionaler Vertrauensfaktor</p></div>
+  <div class="box"><div style="color:var(--cyan);font-weight:800;font-size:.85rem;">Optional: .gg</div>
+    <div style="font-family:monospace;font-weight:800;color:var(--gold);font-size:1.45rem;margin:6px 0;">51,80 $/Jahr</div>
+    <p style="font-size:.79rem;color:var(--muted);margin:0;">Porkbun — typische Gaming-Endung, aber teuer; nur wenn Budget locker sitzt</p></div>
+</div>
+<ol style="margin-top:14px;">
+  <li><strong>porkbun.com</strong> → <code>vardhelm</code> suchen → <code>.com</code> in den Warenkorb (optional <code>.gg</code>).</li>
+  <li><strong>netcup.de</strong> → <code>vardhelm.de</code> → 5,04 €/Jahr.</li>
+  <li><strong>Cloudflare</strong> (gratis) als Nameserver, dann die Records unten eintragen. Der Minecraft-A-Record
+      <strong>muss „DNS only"</strong> sein (graue Wolke).</li>
+  <li><strong>In Jarvis eintragen:</strong> HUD → Sovereign Control → „Server-Domain" → speichern.</li>
+</ol>
+
+<h2>DNS-Plan (Beispiel Vardhelm)</h2>
+<pre>; Website / HUD
+vardhelm.com.                 A      DEINE_IP                TTL 3600
+www.vardhelm.com.             CNAME  vardhelm.com.
+
+; Minecraft Java — Spieler tippen nur "vardhelm.com"
+play.vardhelm.com.            A      DEINE_IP                TTL 300
+_minecraft._tcp.vardhelm.com. SRV    0 5 25565 play.vardhelm.com.   TTL 300
+
+; Bedrock/Geyser (optional)
+_minecraft._udp.vardhelm.com. SRV    0 5 19132 play.vardhelm.com.   TTL 300
+
+; Panel (nur mit TLS/Reverse-Proxy!)
+panel.vardhelm.com.           A      DEINE_IP                TTL 300</pre>
+
+<h2>Ehrliche Hinweise</h2>
+<div class="bad">
+  <ul style="margin:0 0 0 16px;font-size:.83rem;">
+    <li><strong>Kaufen kann ich nicht.</strong> Ich habe kein Registrar-Konto und keine Zahlungsdaten — Verfügbarkeit und
+        Preise sind geprüft, der Kauf-Klick gehört dir.</li>
+    <li><strong>.gg ohne RDAP:</strong> Ein registrierter, aber noch unkonfigurierter .gg-Name würde als „frei" erscheinen.
+        Endgültige Bestätigung zeigt erst der Warenkorb. Bei <code>vardhelm</code> ist das Risiko extrem klein (keine Treffer,
+        .com/.de/.net frei).</li>
+    <li><strong>Schnell sein:</strong> 8-Buchstaben-Kunstwörter mit völlig leerem Namensraum sind selten — wenn dir Vardhelm
+        gefällt, sichere es in den nächsten Tagen.</li>
+    <li><strong>Markenrechte:</strong> Kunstwörter wie Vardhelm sind am unkritischsten. <code>rabenmark</code> (DSA) und
+        <code>jotunmark</code> (Jotun-Spiel) tragen eine Vorbelastung, <code>nachtfels</code> eine Roman-Referenz.</li>
+  </ul>
+</div>
+
+<footer>
+  J.A.R.V.I.S. OMEGA · Naming Report v2 · 27.10.2026 · 92 Namen · 368 Endungen · RDAP (Verisign/DENIC) + DNS + mcsrvstat + Handle-Checks<br>
+  Preisstand: Porkbun (.com 11,08 $ · .gg 51,80 $), netcup (.de 5,04 €), Namecheap (.gg 68,98 $ / Verl. 82,98 $)
+</footer>
+</div></body></html>

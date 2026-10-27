@@ -110,6 +110,6 @@ curl -X POST http://localhost:8080/api/sovereign/set-domain \
 
 Die Domain wird dauerhaft in `generated_configs/guardian_domain.json` gespeichert und erscheint danach im
 Minecraft-Status als Spieler-Adresse (`play.jarvisrealm.com`). Fertige DNS-Records (A + SRV) liegen in
-`docs/dns-records.txt`; Namensrecherche und Registry-geprüfte Verfügbarkeit in `docs/JARVIS-DOMAIN-REPORT.html`.
+`docs/dns-records.txt`; Namensrecherche in `docs/MINECRAFT-SERVER-NAMEN-REPORT.html` (Empfehlung: **Vardhelm**), frühere Domain-Recherche in `docs/JARVIS-DOMAIN-REPORT.html`.
 
 > **Wichtig:** Der Minecraft-A-Record muss „DNS only“ sein (graue Wolke) — ein Cloudflare-Proxy bricht die Verbindung.
